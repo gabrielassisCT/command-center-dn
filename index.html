@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Command Center — Área DN · Cia de Talentos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --ink:#0D0C0A; --ink2:#3D3C38; --ink3:#7A7872; --ink4:#B8B6AE;
+  --paper:#F7F5F0; --paper2:#EDEAE3; --paper3:#E2DED5;
+  --line:rgba(13,12,10,0.1); --line2:rgba(13,12,10,0.18);
+  --c-crm:#1A56A0;    --c-crm-l:#D6E7FA;
+  --c-growth:#0A6645; --c-growth-l:#CFF0E3;
+  --c-play:#5A3E9B;   --c-play-l:#E8E2F9;
+  --c-data:#2E6B0E;   --c-data-l:#D8EFC5;
+  --c-auto:#8C4A00;   --c-auto-l:#FDEACC;
+  --c-agent:#8B1A4A;  --c-agent-l:#FAD9E9;
+  --c-ops:#971F1F;    --c-ops-l:#FBDADA;
+  --c-dash:#1A56A0;   --c-dash-l:#D6E7FA;
+  --c-event:#0A5C6E;  --c-event-l:#CDE9F0;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+
+/* HERO */
+.hero{position:relative;padding:64px 48px 48px;border-bottom:1px solid var(--line2);overflow:hidden;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,0.4) 30%,rgba(0,0,0,0.4) 70%,transparent);}
+.hero-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--ink3);}
+.hero h1{font-size:clamp(40px,5vw,72px);font-weight:800;line-height:0.95;letter-spacing:-2px;color:var(--ink);}
+.hero h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ink3);}
+.hero-sub{margin-top:16px;font-size:14px;color:var(--ink3);font-weight:400;max-width:480px;line-height:1.6;}
+.hero-right{display:flex;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:12px;overflow:hidden;}
+.kpi{background:var(--paper);padding:20px 28px;text-align:center;min-width:90px;}
+.kpi-n{font-size:36px;font-weight:800;letter-spacing:-2px;line-height:1;display:block;}
+.kpi-l{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);display:block;margin-top:4px;}
+
+/* PERSON TABS */
+.person-nav{max-width:1200px;margin:0 auto;padding:28px 48px 0;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.person-tab{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  padding:7px 16px;border-radius:20px;border:1px solid var(--line2);
+  background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:7px;
+}
+.person-tab .avatar{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;}
+.person-tab:hover{background:var(--paper3);color:var(--ink);}
+.person-tab.on{color:#fff;border-color:transparent;}
+
+/* CONTROLS */
+.controls{max-width:1200px;margin:0 auto;padding:16px 48px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.search-box{position:relative;flex:1;min-width:200px;max-width:280px;}
+.search-box input{font-family:'IBM Plex Mono',monospace;font-size:12px;width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line2);border-radius:8px;background:var(--paper);color:var(--ink);outline:none;transition:border-color .15s;}
+.search-box input:focus{border-color:var(--ink);}
+.search-box input::placeholder{color:var(--ink4);}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--ink4);pointer-events:none;}
+.cat-filters{display:flex;gap:5px;flex-wrap:wrap;}
+.fb{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.fb:hover{background:var(--paper3);color:var(--ink);}
+.fb.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.view-toggle{display:flex;gap:4px;margin-left:auto;}
+.vtb{width:32px;height:32px;border:1px solid var(--line2);border-radius:6px;background:transparent;color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.vtb.on,.vtb:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+/* PERSON SECTION */
+.person-section{max-width:1200px;margin:36px auto 0;padding:0 48px;}
+.person-section.hidden{display:none;}
+
+.person-header{
+  display:flex;align-items:center;gap:16px;margin-bottom:20px;
+  padding-bottom:16px;border-bottom:2px solid var(--line2);
+}
+.person-avatar-lg{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:#fff;flex-shrink:0;
+}
+.person-name{font-size:20px;font-weight:700;letter-spacing:-0.5px;}
+.person-role-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:0.08em;margin-top:2px;}
+.person-proj-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink4);margin-left:auto;text-transform:uppercase;letter-spacing:0.1em;}
+
+/* CAT SUBGROUP */
+.cat-section{margin-bottom:8px;}
+.cat-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;margin-top:20px;}
+.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.cat-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink2);}
+.cat-count-sm{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);}
+.cat-line{flex:1;height:1px;background:var(--line);}
+
+/* GRID */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+
+/* CARD */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;cursor:default;transition:transform .2s,box-shadow .2s,border-color .2s;animation:fadeUp .4s ease both;display:flex;flex-direction:column;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.09);border-color:var(--line2);}
+.card.hidden{display:none;}
+.card-accent{height:4px;width:100%;}
+.card-body{padding:16px 18px 14px;flex:1;display:flex;flex-direction:column;}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+.role-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;}
+.card h3{font-size:13.5px;font-weight:700;line-height:1.35;letter-spacing:-0.2px;margin-bottom:7px;color:var(--ink);}
+.card-desc{font-size:11.5px;color:var(--ink3);line-height:1.65;font-weight:400;flex:1;}
+.exec-tag{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);background:var(--paper2);padding:2px 8px;border-radius:10px;width:fit-content;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 12px;border-top:1px solid var(--line);}
+.priority-pill{display:flex;align-items:center;gap:5px;}
+.pips{display:flex;gap:3px;}
+.pip{width:5px;height:5px;border-radius:50%;background:var(--paper3);}
+.pip.on-high{background:#E24B4A;}.pip.on-med{background:#EF9F27;}.pip.on-low{background:#639922;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#639922;box-shadow:0 0 0 3px rgba(99,153,34,0.2);animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(99,153,34,0.2);}50%{box-shadow:0 0 0 5px rgba(99,153,34,0.08);}}
+.card.done{opacity:0.55;background:var(--paper2);}
+.card.done:hover{opacity:0.75;}
+.card.done .card-accent{opacity:0.4;}
+.done-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:5px;color:#2E6B0E;background:#D8EFC5;padding:3px 9px;border-radius:20px;}
+.done-badge::before{content:'✓ ';}
+
+/* LIST VIEW */
+.list-view .cat-grid{grid-template-columns:1fr;gap:4px;}
+.list-view .card{flex-direction:row;border-radius:10px;}
+.list-view .card-accent{width:4px;height:auto;flex-shrink:0;border-radius:0;}
+.list-view .card-body{flex-direction:row;align-items:center;gap:16px;padding:11px 16px;}
+.list-view .card h3{margin-bottom:0;font-size:12.5px;min-width:200px;max-width:240px;flex-shrink:0;}
+.list-view .card-desc{display:none;}
+.list-view .exec-tag{display:none;}
+.list-view .card-footer{border-top:none;padding:11px 16px 11px 0;margin-left:auto;flex-shrink:0;}
+.list-view .card-top{flex-shrink:0;}
+
+/* EMPTY */
+.empty{max-width:1200px;margin:48px auto;padding:0 48px;text-align:center;display:none;}
+.empty p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink4);letter-spacing:0.05em;}
+
+/* FOOTER */
+.footer{max-width:1200px;margin:48px auto 0;padding:24px 48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-l{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink4);letter-spacing:0.1em;text-transform:uppercase;}
+.legend{display:flex;gap:16px;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);letter-spacing:0.08em;text-transform:uppercase;}
+.leg-dot{width:8px;height:8px;border-radius:50%;}
+
+@media(max-width:768px){
+  .hero,.controls,.person-nav,.person-section,.footer{padding-left:20px;padding-right:20px;}
+  .hero h1{font-size:36px;letter-spacing:-1px;}
+  .kpi{padding:16px 16px;}
+  .kpi-n{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Cia de Talentos · Desenvolvimento de Negócios</div>
+      <h1>Command<br><em>Center</em></h1>
+      <p class="hero-sub">Painel de projetos ativos da área DN.<br>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;" id="ts"></span>
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="kpi">
+        <span class="kpi-n" id="k-total" style="color:var(--ink)">—</span>
+        <span class="kpi-l">Total</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-n" id="k-lead" style="color:#0A6645">—</span>
+        <span class="kpi-l">Líder</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-n" id="k-sup" style="color:#5A3E9B">—</span>
+        <span class="kpi-l">Apoio</span>
+      </div>
+      <div class="kpi">
+        <span class="kpi-n" id="k-hi" style="color:#971F1F">—</span>
+        <span class="kpi-l">Alta prior.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERSON TABS -->
+<div class="person-nav" id="person-nav">
+  <button class="person-tab on" data-person="all" style="background:var(--ink);border-color:var(--ink)">
+    <span>Todos</span>
+  </button>
+  <button class="person-tab" data-person="gabriel" style="--pc:#1A56A0">
+    <div class="avatar" style="background:#1A56A0">G</div><span>Gabriel</span>
+  </button>
+  <button class="person-tab" data-person="fernanda" style="--pc:#8B1A4A">
+    <div class="avatar" style="background:#8B1A4A">F</div><span>Fernanda</span>
+  </button>
+  <button class="person-tab" data-person="sabrina" style="--pc:#0A6645">
+    <div class="avatar" style="background:#0A6645">S</div><span>Sabrina</span>
+  </button>
+  <button class="person-tab" data-person="paloma" style="--pc:#5A3E9B">
+    <div class="avatar" style="background:#5A3E9B">P</div><span>Paloma</span>
+  </button>
+  <button class="person-tab" data-person="sara" style="--pc:#8C4A00">
+    <div class="avatar" style="background:#8C4A00">S</div><span>Sara</span>
+  </button>
+
+  <div class="cat-filters" style="margin-left:auto;" id="cat-filters">
+    <button class="fb on" data-cat="all">Todas categorias</button>
+    <button class="fb" data-cat="crm">CRM</button>
+    <button class="fb" data-cat="growth">Growth</button>
+    <button class="fb" data-cat="playbook">Playbooks</button>
+    <button class="fb" data-cat="data">Dados</button>
+    <button class="fb" data-cat="auto">Automação</button>
+    <button class="fb" data-cat="agent">Agentes IA</button>
+    <button class="fb" data-cat="ops">Ops</button>
+    <button class="fb" data-cat="dash">Dashboard</button>
+    <button class="fb" data-cat="event">Eventos</button>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="search-box">
+    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Buscar projeto..." id="search" oninput="render()">
+  </div>
+  <div class="view-toggle">
+    <button class="vtb on" id="vt-grid" onclick="setView('grid')" title="Grade">
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+    </button>
+    <button class="vtb" id="vt-list" onclick="setView('list')" title="Lista">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="content"></div>
+<div class="empty" id="empty"><p>Nenhum projeto encontrado.</p></div>
+
+<footer class="footer">
+  <div class="footer-l">Atualizado em <span id="ft-date"></span></div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#E24B4A"></div>Alta prioridade</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#EF9F27"></div>Média prioridade</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#639922"></div>Baixa prioridade</div>
+  </div>
+</footer>
+
+<script>
+const CAT = {
+  crm:     {label:'CRM',             color:'#1A56A0', bg:'#D6E7FA'},
+  growth:  {label:'Growth',          color:'#0A6645', bg:'#CFF0E3'},
+  playbook:{label:'Playbook',        color:'#5A3E9B', bg:'#E8E2F9'},
+  data:    {label:'Dados',           color:'#2E6B0E', bg:'#D8EFC5'},
+  auto:    {label:'Automação',       color:'#8C4A00', bg:'#FDEACC'},
+  agent:   {label:'Agente IA',       color:'#8B1A4A', bg:'#FAD9E9'},
+  ops:     {label:'Ops / Processos', color:'#971F1F', bg:'#FBDADA'},
+  dash:    {label:'Dashboard',       color:'#1A56A0', bg:'#D6E7FA'},
+  event:   {label:'Eventos',         color:'#0A5C6E', bg:'#CDE9F0'},
+};
+
+const PEOPLE = {
+  gabriel:  {name:'Gabriel de Assis', role:'RevOps / BI / Data Science', color:'#1A56A0'},
+  fernanda: {name:'Fernanda',          role:'Desenvolvimento de Negócios', color:'#8B1A4A'},
+  sabrina:  {name:'Sabrina',           role:'Desenvolvimento de Negócios', color:'#0A6645'},
+  paloma:   {name:'Paloma',            role:'Desenvolvimento de Negócios', color:'#5A3E9B'},
+  sara:     {name:'Sara',              role:'SDR',                         color:'#8C4A00'},
+};
+
+const PROJECTS = [
+  // ─── GABRIEL ───
+  {person:'gabriel', cat:'crm',     role:'support', pri:'high', title:'Migração do CRM',
+   desc:'Migração Moskit → Bitrix24 em 7 fases com Arrecife Digital. Mapeamento de dados, fluxos pós-venda, NPS e integração futura com Omie ERP.'},
+  {person:'gabriel', cat:'crm',     role:'support', pri:'high', title:'Saneamento da Base CRM',
+   desc:'Limpeza, deduplicação e enriquecimento da base. Padronização de campos e validação de integridade antes da migração.'},
+  {person:'gabriel', cat:'crm',     role:'lead',    pri:'med',  title:'Atualização de Produtos Base',
+   desc:'Revisão do catálogo de produtos no CRM — nomenclaturas, precificações e atributos alinhados à nova estrutura comercial.'},
+  {person:'gabriel', cat:'data',    role:'lead',    pri:'high', title:'Segmentação Pedras',
+   desc:'Clusterização RFV + qualitativo: Diamante, Ouro, Prata e Ferro. Base para priorização de farmer e estratégia de retenção.'},
+  {person:'gabriel', cat:'data',    role:'lead',    pri:'high', title:'Segmentação Empresas',
+   desc:'ICP para prospecção por porte, setor, região e potencial de receita. Define critérios de entrada no funil outbound.'},
+  {person:'gabriel', cat:'data',    role:'support', pri:'med',  title:'Pricing',
+   desc:'Modelagem de precificação de Trainee, Estágio e Consultoria. Análise de competitividade, elasticidade e margens.'},
+  {person:'gabriel', cat:'growth',  role:'lead',    pri:'high', title:'Aceleração Growth Machine',
+   desc:'Máquina outbound via Apollo, Expandi/Waalaxy e Growth Machine. Cadências SDR com Sara para empresas +R$300M.'},
+  {person:'gabriel', cat:'growth',  role:'support', pri:'high', title:'Cronograma de Prospecção',
+   desc:'Planejamento anual com cadência por produto, ciclos mensais, metas de conversão e calendário de ativação.'},
+  {person:'gabriel', cat:'auto',    role:'lead',    pri:'high', title:'Automatização Cadência SDR', status:'done',
+   desc:'Automação completa das cadências via Growth Machine + Bitrix24: e-mail, LinkedIn e follow-up com qualificação automática.'},
+  {person:'gabriel', cat:'auto',    role:'lead',    pri:'high', title:'Enriquecimento de Contatos',
+   desc:'Pipeline de enriquecimento de leads via Apollo. Dados firmográficos, cargos e sinais de compra para qualificação outbound.'},
+  {person:'gabriel', cat:'auto',    role:'sponsor', pri:'med',  title:'Automatização de Propostas',
+   desc:'Geração automatizada de propostas comerciais — integração CRM + templates + IA para documentos personalizados.'},
+  {person:'gabriel', cat:'auto',    role:'support', pri:'med',  title:'Automatização de Transcrição',
+   desc:'Pipeline de transcrição automática de reuniões comerciais com IA para extração de insights e ações de follow-up.'},
+
+
+  {person:'gabriel', cat:'agent',   role:'lead',    pri:'med',  title:'Agente de Proposta (Melhorias)',
+   desc:'Refinamento de prompts, personalização e integração mais profunda com dados do CRM no agente de propostas.'},
+  {person:'gabriel', cat:'agent',   role:'support', pri:'med',  title:'Agente Jurídico',
+   desc:'Suporte jurídico ao time comercial: revisão de cláusulas, alertas de risco e respostas a dúvidas de compliance.'},
+  {person:'gabriel', cat:'agent',   role:'lead',    pri:'med',  title:'Agente de Primeiro Atendimento',
+   desc:'Triagem e qualificação de leads inbound: coleta de dados, roteamento inteligente e pré-qualificação antes do handoff.'},
+  {person:'gabriel', cat:'agent',   role:'lead',    pri:'high', title:'Agente de BI',
+   desc:'Agente de inteligência de negócios para automação de análises, geração de relatórios e insights de dados comerciais e operacionais.'},
+  {person:'gabriel', cat:'agent',   role:'sponsor', pri:'med',  title:'Agente Resumo Reunião Farmers',
+   desc:'Resumo automático de reuniões com feedback e status por cliente. Gera visão consolidada da carteira de cada farmer responsável.'},
+  {person:'gabriel', cat:'agent',   role:'lead',    pri:'low',  title:'Claude para a Área',
+   desc:'Implantação do Claude como ferramenta de produtividade comercial: casos de uso, treinamento da equipe e agentes customizados.'},
+  {person:'gabriel', cat:'ops',     role:'lead',    pri:'high', title:'Processos Nova Estrutura de Vendas', status:'done',
+   desc:'Redesenho dos processos da nova estrutura comercial: fluxos hunter/farmer, responsabilidades por perfil, SLAs e integrações.'},
+  {person:'gabriel', cat:'ops',     role:'lead',    pri:'med',  title:'Gestão de Parcerias',
+   desc:'Modelo de gestão de parcerias: critérios de qualificação, onboarding, comissionamento e acompanhamento de performance.'},
+  {person:'gabriel', cat:'ops',     role:'lead',    pri:'med',  title:'Planejamento Ciclo 2026/2027',
+   desc:'Planejamento estratégico do próximo ciclo: metas, OKRs, produtos prioritários, estratégia de mercado e alocação de recursos.'},
+  {person:'gabriel', cat:'ops',     role:'sponsor', pri:'med',  title:'Mapeamento de Concorrência',
+   desc:'Ferramenta de análise competitiva e benchmarking de mercado para apoiar estratégia comercial e posicionamento.', exec:'Pedro'},
+  {person:'gabriel', cat:'dash',    role:'lead',    pri:'high', title:'Dashboard Comercial',
+   desc:'Dashboard Power BI cobrindo pipeline, CAC, conversão por etapa, sazonalidade, curva ABC e indicadores econômicos com DAX.'},
+  {person:'gabriel', cat:'event',   role:'support', pri:'med',  title:'Evento Carreira dos Sonhos e ENLA',
+   desc:'Apoio na organização e execução dos eventos Carreira dos Sonhos e ENLA. Suporte à estrutura, comunicação e operação.'},
+  {person:'gabriel', cat:'ops',     role:'lead',    pri:'low',  title:'Governança de Links da Área',
+   desc:'Organização e governança dos links, pastas e acessos da área de DN. Padronização de nomenclatura e controle de permissões.'},
+
+  // ─── FERNANDA ───
+  {person:'fernanda', cat:'playbook', role:'sponsor', pri:'med',  title:'Gestão de Logos',
+   desc:'Playbook de gestão e uso de logos institucionais. Diretrizes de aplicação, versionamento e aprovação de ativos visuais.'},
+  {person:'fernanda', cat:'ops',      role:'sponsor', pri:'med',  title:'Calendário da Área DN',
+   desc:'Criação e manutenção do calendário de atividades, eventos e marcos da área de Desenvolvimento de Negócios.'},
+  {person:'fernanda', cat:'data',     role:'sponsor', pri:'high', title:'Otimização Comissão de Vendas',
+   desc:'Revisão e otimização da política de comissões do time de vendas. Modelagem de cenários, fairness e incentivos por produto.'},
+  {person:'fernanda', cat:'agent',    role:'sponsor', pri:'med',  title:'Agente Jurídico',
+   desc:'Suporte jurídico ao time comercial: revisão de cláusulas, alertas de risco e respostas a dúvidas de compliance em negociações.'},
+
+  // ─── SABRINA ───
+  {person:'sabrina', cat:'playbook', role:'sponsor', pri:'med',  title:'Guia de Backoffice',
+   desc:'Documentação dos processos operacionais do backoffice comercial — suporte pós-venda, fluxos internos e integrações.'},
+  {person:'sabrina', cat:'agent',    role:'sponsor', pri:'high', title:'Oráculo DN (NotebookLM)',
+   desc:'Agente de inteligência em HTML/NotebookLM para suporte à área de Desenvolvimento de Negócios com respostas contextualizadas.'},
+  {person:'sabrina', cat:'ops',      role:'sponsor', pri:'med',  title:'Otimização de Modelos de Proposta',
+   desc:'Revisão e melhoria dos templates de proposta comercial: proposta de valor, estrutura, linguagem e alinhamento ao ICP.'},
+  {person:'sabrina', cat:'agent',    role:'sponsor', pri:'med',  title:'Agente de RFQ',
+   desc:'Agente especializado em processos de RFQ (Request for Quotation): triagem, resposta e gestão de solicitações de cotação.'},
+  {person:'sabrina', cat:'ops',      role:'support', pri:'low',  title:'Atualização de Certidões',
+   desc:'Apoio no processo de atualização periódica de certidões negativas e documentação jurídica da área comercial.', exec:'Pedro'},
+
+  // ─── PALOMA ───
+  {person:'paloma', cat:'growth',   role:'sponsor', pri:'high', title:'Cronograma de Prospecção',
+   desc:'Sponsorship do planejamento e acompanhamento das cadências de prospecção outbound por ciclo e produto.'},
+  {person:'paloma', cat:'playbook', role:'sponsor', pri:'med',  title:'Guia de Hunter',
+   desc:'Playbook operacional para hunters: metodologia de abordagem, qualificação, argumentários e critérios de avanço no funil.'},
+
+  // ─── SARA ───
+  {person:'sara', cat:'growth',   role:'support', pri:'high', title:'Cronograma de Prospecção',
+   desc:'Execução operacional das cadências de prospecção outbound. Ativação de contatos via Apollo, e-mail e LinkedIn.'},
+  {person:'sara', cat:'ops',      role:'lead',    pri:'med',  title:'Fluxograma Processos FACET5',
+   desc:'Mapeamento e documentação dos processos relacionados ao FACET5 dentro do fluxo comercial e de entrega.'},
+  {person:'sara', cat:'playbook', role:'sponsor', pri:'med',  title:'Guia de SDR',
+   desc:'Playbook operacional para SDRs: scripts de abordagem, qualificação, SLA de follow-up, cadências e métricas de performance.'},
+];
+
+const ROLE_LABELS = {lead:'Líder', support:'Apoio', sponsor:'Líder'};
+const PRI_LABELS  = {high:'Alta', med:'Média', low:'Baixa'};
+const PRI_CLS     = {high:'on-high', med:'on-med', low:'on-low'};
+
+let activePerson = 'all';
+let activeCat    = 'all';
+let activeView   = 'grid';
+
+function pips(pri){
+  const cls = PRI_CLS[pri];
+  const n   = {high:3,med:2,low:1}[pri];
+  let h='<div class="pips">';
+  for(let i=0;i<3;i++) h+=`<div class="pip ${i<n?cls:''}"></div>`;
+  return h+'</div>';
+}
+
+function makeCard(p, delay){
+  const m = CAT[p.cat];
+  const exec = p.exec ? `<div class="exec-tag">▶ Execução: ${p.exec}</div>` : '';
+  const isDone = p.status === 'done';
+  const footer = isDone
+    ? `<span class="done-badge">Concluído</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);letter-spacing:.08em">✓</span>`
+    : `<div class="priority-pill">${pips(p.pri)}<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-left:4px">${PRI_LABELS[p.pri]}</span></div><div class="status-dot" title="Em andamento"></div>`;
+  return `<div class="card${isDone?' done':''}" data-person="${p.person}" data-cat="${p.cat}" data-role="${p.role}" data-pri="${p.pri}" style="animation-delay:${delay}ms">
+    <div class="card-accent" style="background:${m.color}"></div>
+    <div class="card-body">
+      <div class="card-top">
+        <span class="badge" style="background:${m.bg};color:${m.color}">${m.label}</span>
+        <span class="role-badge">${ROLE_LABELS[p.role]}</span>
+      </div>
+      <h3>${p.title}</h3>
+      <p class="card-desc">${p.desc}</p>
+      ${exec}
+    </div>
+    <div class="card-footer">${footer}</div>
+  </div>`;
+}
+
+function render(){
+  const q = document.getElementById('search').value.toLowerCase();
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  content.className = activeView === 'list' ? 'list-view' : '';
+
+  const persons = activePerson === 'all' ? Object.keys(PEOPLE) : [activePerson];
+  let total=0, lead=0, sup=0, hi=0;
+  let anyVisible = false;
+
+  persons.forEach(pid => {
+    const pinfo = PEOPLE[pid];
+    // group by cat
+    const catGroups = {};
+    PROJECTS.forEach(p => {
+      if(p.person !== pid) return;
+      if(activeCat !== 'all' && p.cat !== activeCat) return;
+      if(q && !p.title.toLowerCase().includes(q) && !p.desc.toLowerCase().includes(q)) return;
+      if(!catGroups[p.cat]) catGroups[p.cat] = [];
+      catGroups[p.cat].push(p);
+    });
+
+    const allItems = Object.values(catGroups).flat();
+    if(allItems.length === 0) return;
+    anyVisible = true;
+
+    const sec = document.createElement('div');
+    sec.className = 'person-section';
+    sec.dataset.person = pid;
+
+    const count = allItems.length;
+    let delay = 0;
+    let catHTML = '';
+
+    Object.entries(catGroups).forEach(([cat, items]) => {
+      const m = CAT[cat];
+      const cards = items.map(p => {
+        total++;
+        if(p.role==='lead') lead++;
+        else sup++;
+        if(p.pri==='high') hi++;
+        return makeCard(p, delay+=40);
+      }).join('');
+      catHTML += `<div class="cat-section">
+        <div class="cat-header">
+          <div class="cat-dot" style="background:${m.color}"></div>
+          <span class="cat-title">${m.label}</span>
+          <div class="cat-line"></div>
+          <span class="cat-count-sm">${items.length}p</span>
+        </div>
+        <div class="cat-grid">${cards}</div>
+      </div>`;
+    });
+
+    sec.innerHTML = `
+      <div class="person-header">
+        <div class="person-avatar-lg" style="background:${pinfo.color}">${pinfo.name[0]}</div>
+        <div>
+          <div class="person-name">${pinfo.name}</div>
+          <div class="person-role-label">${pinfo.role}</div>
+        </div>
+        <div class="person-proj-count">${count} projeto${count>1?'s':''}</div>
+      </div>
+      ${catHTML}`;
+
+    content.appendChild(sec);
+  });
+
+  document.getElementById('empty').style.display = anyVisible ? 'none' : 'block';
+  document.getElementById('k-total').textContent = total;
+  document.getElementById('k-lead').textContent  = lead;
+  document.getElementById('k-sup').textContent   = sup;
+  document.getElementById('k-hi').textContent    = hi;
+}
+
+function setView(v){
+  activeView = v;
+  document.getElementById('vt-grid').classList.toggle('on', v==='grid');
+  document.getElementById('vt-list').classList.toggle('on', v==='list');
+  render();
+}
+
+// Person tabs
+document.getElementById('person-nav').addEventListener('click', e => {
+  const btn = e.target.closest('.person-tab');
+  if(!btn) return;
+  activePerson = btn.dataset.person;
+  document.querySelectorAll('.person-tab').forEach(b => {
+    const pid = b.dataset.person;
+    b.classList.remove('on');
+    b.style.background = '';
+    b.style.borderColor = '';
+    b.style.color = '';
+  });
+  btn.classList.add('on');
+  if(activePerson === 'all'){
+    btn.style.background = 'var(--ink)';
+    btn.style.borderColor = 'var(--ink)';
+    btn.style.color = '#fff';
+  } else {
+    const c = PEOPLE[activePerson].color;
+    btn.style.background = c;
+    btn.style.borderColor = c;
+    btn.style.color = '#fff';
+  }
+  render();
+});
+
+// Cat filters
+document.getElementById('cat-filters').addEventListener('click', e => {
+  if(!e.target.classList.contains('fb')) return;
+  activeCat = e.target.dataset.cat;
+  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+  e.target.classList.add('on');
+  render();
+});
+
+const now = new Date();
+document.getElementById('ts').textContent = now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+document.getElementById('ft-date').textContent = now.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+
+render();
+</script>
+</body>
+</html>

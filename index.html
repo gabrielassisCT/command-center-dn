@@ -3,520 +3,539 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Command Center — Área DN · Cia de Talentos</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<title>Projetos DN · Cia de Talentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --ink:#0D0C0A; --ink2:#3D3C38; --ink3:#7A7872; --ink4:#B8B6AE;
-  --paper:#F7F5F0; --paper2:#EDEAE3; --paper3:#E2DED5;
-  --line:rgba(13,12,10,0.1); --line2:rgba(13,12,10,0.18);
-  --c-crm:#1A56A0;    --c-crm-l:#D6E7FA;
-  --c-growth:#0A6645; --c-growth-l:#CFF0E3;
-  --c-play:#5A3E9B;   --c-play-l:#E8E2F9;
-  --c-data:#2E6B0E;   --c-data-l:#D8EFC5;
-  --c-auto:#8C4A00;   --c-auto-l:#FDEACC;
-  --c-agent:#8B1A4A;  --c-agent-l:#FAD9E9;
-  --c-ops:#971F1F;    --c-ops-l:#FBDADA;
-  --c-dash:#1A56A0;   --c-dash-l:#D6E7FA;
-  --c-event:#0A5C6E;  --c-event-l:#CDE9F0;
+  --red:#EE222B; --red-d:#c81820; --black:#1d1d1b; --white:#fff;
+  --lime:#b0e600; --green:#00a85c; --blue:#004fce; --purple:#2e22b8; --pink:#e35fcf; --orange:#ff6b1a;
+  --bg:#f3f4f7; --card:#ffffff; --line:#e8e9ee; --line2:#dcdee4;
+  --ink:#1d1d1b; --ink2:#494c53; --ink3:#7c7f87; --ink4:#a6a9b1;
+  --mono:'Roboto Mono',monospace;
+  --sh-1:0 1px 2px rgba(29,29,27,.05);
+  --sh-2:0 4px 14px rgba(29,29,27,.07);
+  --sh-3:0 10px 34px rgba(29,29,27,.11);
+  --r:12px;
+  --topH:58px; --barH:56px;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Syne',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+body{font-family:'Roboto',system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;}
+::selection{background:rgba(238,34,43,.15);}
+*:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:6px;}
+.scroll::-webkit-scrollbar{height:9px;width:9px;}
+.scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:20px;}
+.scroll::-webkit-scrollbar-thumb:hover{background:var(--ink4);}
 
-/* HERO */
-.hero{position:relative;padding:64px 48px 48px;border-bottom:1px solid var(--line2);overflow:hidden;}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,0.4) 30%,rgba(0,0,0,0.4) 70%,transparent);}
-.hero-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;}
-.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
-.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--ink3);}
-.hero h1{font-size:clamp(40px,5vw,72px);font-weight:800;line-height:0.95;letter-spacing:-2px;color:var(--ink);}
-.hero h1 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--ink3);}
-.hero-sub{margin-top:16px;font-size:14px;color:var(--ink3);font-weight:400;max-width:480px;line-height:1.6;}
-.hero-right{display:flex;gap:1px;background:var(--line2);border:1px solid var(--line2);border-radius:12px;overflow:hidden;}
-.kpi{background:var(--paper);padding:20px 28px;text-align:center;min-width:90px;}
-.kpi-n{font-size:36px;font-weight:800;letter-spacing:-2px;line-height:1;display:block;}
-.kpi-l{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);display:block;margin-top:4px;}
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 24px;height:var(--topH);}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo .mark{width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;box-shadow:0 2px 6px rgba(238,34,43,.35);}
+.logo .wm{font-weight:900;font-size:14.5px;letter-spacing:-.3px;color:var(--black);}
+.logo .wm span{color:var(--red);}
+.topbar .divider{width:1px;height:24px;background:var(--line2);}
+.topbar .app{font-weight:700;font-size:13.5px;line-height:1.1;}
+.topbar .app small{display:block;font-family:var(--mono);font-weight:400;font-size:9.5px;color:var(--ink3);letter-spacing:.05em;text-transform:uppercase;margin-top:2px;}
+.topbar .spacer{flex:1;}
+.topbar .date{font-family:var(--mono);font-size:11px;color:var(--ink3);white-space:nowrap;}
 
-/* PERSON TABS */
-.person-nav{max-width:1200px;margin:0 auto;padding:28px 48px 0;display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-.person-tab{
-  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
-  padding:7px 16px;border-radius:20px;border:1px solid var(--line2);
-  background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;
-  display:flex;align-items:center;gap:7px;
+/* OVERVIEW */
+.overview{padding:20px 24px 6px;display:grid;grid-template-columns:1.15fr 1fr;gap:14px;align-items:stretch;}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 14px;box-shadow:var(--sh-1);position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.kpi.k-total::before{background:var(--black);}
+.kpi.k-run::before{background:var(--blue);}
+.kpi.k-hold::before{background:var(--orange);}
+.kpi.k-new::before{background:#7c7f87;}
+.kpi.k-prio::before{background:var(--red);}
+.kpi .n{font-size:26px;font-weight:900;letter-spacing:-1px;line-height:1;}
+.kpi .n small{font-size:13px;font-weight:500;color:var(--ink4);letter-spacing:0;}
+.kpi .l{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;margin-top:6px;}
+.distro{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh-1);display:flex;flex-direction:column;}
+.distro .dt{font-family:var(--mono);font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;display:flex;justify-content:space-between;}
+.distro .dt b{color:var(--ink);font-weight:700;}
+.bar{display:flex;height:14px;border-radius:8px;overflow:hidden;background:#eef0f3;gap:2px;}
+.bar span{transition:flex .4s ease;min-width:2px;}
+.dlegend{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px;}
+.dlegend .li{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ink2);cursor:pointer;user-select:none;}
+.dlegend .li .sw{width:9px;height:9px;border-radius:3px;}
+.dlegend .li b{font-family:var(--mono);font-weight:500;color:var(--ink3);font-size:10px;}
+.dlegend .li.mut{opacity:.4;}
+
+/* TOOLBAR */
+.toolbar{position:sticky;top:var(--topH);z-index:40;background:rgba(243,244,247,.9);backdrop-filter:blur(6px);display:flex;align-items:center;gap:12px;padding:12px 24px;flex-wrap:wrap;min-height:var(--barH);}
+.tb-count{font-size:13px;font-weight:700;white-space:nowrap;}
+.tb-count span{color:var(--ink3);font-weight:400;font-family:var(--mono);font-size:11px;}
+.chips-active{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0;}
+.achip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;background:var(--white);border:1px solid var(--line2);border-radius:20px;padding:4px 6px 4px 11px;color:var(--ink2);box-shadow:var(--sh-1);}
+.achip .x{width:15px;height:15px;border-radius:50%;background:#eef0f3;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--ink3);line-height:1;transition:.12s;}
+.achip .x:hover{background:var(--red);color:#fff;}
+.tb-clear{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--red);background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:7px;}
+.tb-clear:hover{background:rgba(238,34,43,.08);}
+.tb-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.sortsel{font-family:'Roboto';font-size:12px;font-weight:500;color:var(--ink2);border:1px solid var(--line2);background:var(--white);border-radius:9px;padding:7px 10px;cursor:pointer;box-shadow:var(--sh-1);}
+.seg{display:flex;background:#e9ebef;border-radius:9px;padding:3px;gap:2px;}
+.seg button{font-size:11.5px;font-weight:500;padding:6px 11px;border:none;background:transparent;color:var(--ink3);border-radius:6px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:6px;}
+.seg button svg{width:13px;height:13px;}
+.seg button.on{background:#fff;color:var(--black);box-shadow:var(--sh-1);font-weight:700;}
+
+/* SHELL */
+.shell{display:grid;grid-template-columns:242px 1fr;gap:0;align-items:start;padding:4px 24px 40px;}
+.side{position:sticky;top:calc(var(--topH) + var(--barH) + 4px);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--sh-1);max-height:calc(100vh - var(--topH) - var(--barH) - 24px);overflow-y:auto;}
+.side .search{position:relative;margin-bottom:14px;}
+.side .search input{width:100%;font-size:13px;font-family:'Roboto';padding:10px 12px 10px 34px;border:1px solid var(--line2);border-radius:9px;outline:none;background:#fafbfc;transition:.15s;}
+.side .search input:focus{border-color:var(--black);background:#fff;box-shadow:0 0 0 3px rgba(29,29,27,.05);}
+.side .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--ink4);}
+.prio-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:700;padding:10px;border:1.5px solid var(--red);border-radius:10px;background:#fff;color:var(--red);cursor:pointer;transition:.15s;margin-bottom:14px;}
+.prio-btn:hover{background:rgba(238,34,43,.06);}
+.prio-btn.on{background:var(--red);color:#fff;box-shadow:0 3px 10px rgba(238,34,43,.3);}
+.prio-btn svg{width:14px;height:14px;}
+.grp{margin-bottom:14px;}
+.grp-t{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink4);margin-bottom:7px;}
+.flist{display:flex;flex-direction:column;gap:1px;}
+.frow{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink2);padding:7px 9px;border-radius:8px;cursor:pointer;transition:.12s;border:none;background:transparent;text-align:left;width:100%;}
+.frow:hover{background:#f2f3f6;}
+.frow.on{background:var(--black);color:#fff;font-weight:500;}
+.frow .dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
+.frow .av{width:19px;height:19px;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.frow .c{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink4);}
+.frow.on .c{color:rgba(255,255,255,.6);}
+
+/* MAIN */
+.main{padding-left:18px;min-width:0;}
+.grpsec{margin-bottom:22px;}
+.grphead{display:flex;align-items:center;gap:11px;margin-bottom:11px;}
+.grphead .ic{width:26px;height:26px;border-radius:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;flex-shrink:0;}
+.grphead h2{font-size:15px;font-weight:900;letter-spacing:-.3px;}
+.grphead .sub{font-family:var(--mono);font-size:9.5px;color:var(--ink3);}
+.grphead .cnt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;background:var(--card);border:1px solid var(--line);padding:2px 9px;border-radius:20px;}
+.grphead .rule{flex:1;height:1px;background:var(--line);}
+
+.list{display:flex;flex-direction:column;gap:8px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;display:flex;overflow:hidden;transition:box-shadow .18s,border-color .18s,transform .18s;animation:fade .3s ease both;position:relative;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.card:hover{box-shadow:var(--sh-2);border-color:var(--line2);transform:translateY(-1px);}
+.card .accent{width:4px;flex-shrink:0;}
+.card .body{flex:1;min-width:0;padding:13px 16px;display:flex;align-items:center;gap:16px;}
+.card .lead{flex:1;min-width:0;}
+.chips{display:flex;align-items:center;gap:6px;margin-bottom:6px;flex-wrap:wrap;}
+.chip{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;}
+.chip svg{width:9px;height:9px;}
+.chip-prio{background:var(--red);color:#fff;}
+.chip-src{border:1px solid var(--line2);color:var(--ink3);}
+.chip-chrono{background:#eaf1ff;color:var(--blue);}
+.card h3{font-size:14px;font-weight:700;letter-spacing:-.2px;line-height:1.3;}
+.card .desc{font-size:11.5px;color:var(--ink3);line-height:1.5;margin-top:3px;max-width:640px;}
+.card .cron{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.cron .ci{font-family:var(--mono);font-size:9.5px;color:var(--ink2);display:flex;gap:5px;align-items:center;background:#f6f7f9;border:1px solid var(--line);padding:3px 8px;border-radius:7px;}
+.cron .ci b{color:var(--ink4);font-weight:500;text-transform:uppercase;letter-spacing:.03em;}
+.meta{display:flex;flex-direction:column;align-items:flex-end;gap:9px;flex-shrink:0;min-width:150px;}
+.resp{display:flex;flex-direction:column;gap:4px;align-items:flex-end;}
+.resp .r{display:flex;align-items:center;gap:7px;}
+.resp .av{width:20px;height:20px;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.resp .rn{font-size:11.5px;font-weight:500;color:var(--ink2);}
+.resp .rr{font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:.03em;border:1px solid var(--line2);border-radius:8px;padding:1px 5px;}
+.pill{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.p-run{background:#eaf1ff;color:var(--blue);}
+.p-hold{background:#fff0e3;color:#c24e00;}
+.p-new{background:#edeff2;color:#6b6e74;}
+.p-test{background:#ece9fb;color:var(--purple);}
+.p-adj{background:#fff0e3;color:#c24e00;}
+.p-stop{background:#fde1e2;color:var(--red);}
+.p-block{background:var(--black);color:#fff;}
+.p-done{background:#daf3e7;color:#00854a;}
+.card.is-done{opacity:.62;}
+.card.is-done:hover{opacity:.85;}
+
+/* BOARD */
+.board{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;}
+.col{flex:0 0 306px;width:306px;background:#eef0f3;border:1px solid var(--line);border-radius:14px;padding:11px;display:flex;flex-direction:column;gap:9px;max-height:none;}
+.col-head{display:flex;align-items:center;gap:9px;padding:2px 4px 4px;}
+.col-head .ic{width:22px;height:22px;border-radius:6px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:10px;}
+.col-head h3{font-size:12.5px;font-weight:800;letter-spacing:-.2px;}
+.col-head .cnt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink3);background:#fff;border-radius:20px;padding:1px 8px;}
+.board .card{flex-direction:column;}
+.board .card .accent{width:100%;height:4px;}
+.board .card .body{flex-direction:column;align-items:stretch;gap:10px;padding:12px 13px;}
+.board .card .desc{display:none;}
+.board .card .cron{display:none;}
+.board .meta{flex-direction:row;align-items:center;justify-content:space-between;min-width:0;width:100%;}
+.board .resp{flex-direction:row;align-items:center;flex-wrap:wrap;}
+.board .resp .rr{display:none;}
+
+.empty{text-align:center;padding:72px 20px;display:none;}
+.empty .em-ic{width:52px;height:52px;border-radius:14px;background:var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--ink4);}
+.empty p{font-size:14px;font-weight:700;color:var(--ink2);}
+.empty small{display:block;font-family:var(--mono);font-size:11px;color:var(--ink4);margin-top:6px;}
+.empty button{margin-top:16px;font-size:12px;font-weight:700;color:#fff;background:var(--red);border:none;border-radius:9px;padding:9px 16px;cursor:pointer;}
+
+.foot{padding:18px 24px 40px;font-family:var(--mono);font-size:10px;color:var(--ink4);letter-spacing:.05em;text-transform:uppercase;line-height:1.8;}
+
+@media(max-width:1040px){
+  .overview{grid-template-columns:1fr;}
+  .kpis{grid-template-columns:repeat(5,1fr);}
 }
-.person-tab .avatar{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0;}
-.person-tab:hover{background:var(--paper3);color:var(--ink);}
-.person-tab.on{color:#fff;border-color:transparent;}
-
-/* CONTROLS */
-.controls{max-width:1200px;margin:0 auto;padding:16px 48px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.search-box{position:relative;flex:1;min-width:200px;max-width:280px;}
-.search-box input{font-family:'IBM Plex Mono',monospace;font-size:12px;width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line2);border-radius:8px;background:var(--paper);color:var(--ink);outline:none;transition:border-color .15s;}
-.search-box input:focus{border-color:var(--ink);}
-.search-box input::placeholder{color:var(--ink4);}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--ink4);pointer-events:none;}
-.cat-filters{display:flex;gap:5px;flex-wrap:wrap;}
-.fb{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:6px 12px;border-radius:20px;border:1px solid var(--line2);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;white-space:nowrap;}
-.fb:hover{background:var(--paper3);color:var(--ink);}
-.fb.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
-.view-toggle{display:flex;gap:4px;margin-left:auto;}
-.vtb{width:32px;height:32px;border:1px solid var(--line2);border-radius:6px;background:transparent;color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.vtb.on,.vtb:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
-
-/* PERSON SECTION */
-.person-section{max-width:1200px;margin:36px auto 0;padding:0 48px;}
-.person-section.hidden{display:none;}
-
-.person-header{
-  display:flex;align-items:center;gap:16px;margin-bottom:20px;
-  padding-bottom:16px;border-bottom:2px solid var(--line2);
-}
-.person-avatar-lg{
-  width:44px;height:44px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:800;color:#fff;flex-shrink:0;
-}
-.person-name{font-size:20px;font-weight:700;letter-spacing:-0.5px;}
-.person-role-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink3);letter-spacing:0.08em;margin-top:2px;}
-.person-proj-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink4);margin-left:auto;text-transform:uppercase;letter-spacing:0.1em;}
-
-/* CAT SUBGROUP */
-.cat-section{margin-bottom:8px;}
-.cat-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;margin-top:20px;}
-.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.cat-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink2);}
-.cat-count-sm{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);}
-.cat-line{flex:1;height:1px;background:var(--line);}
-
-/* GRID */
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
-
-/* CARD */
-.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;cursor:default;transition:transform .2s,box-shadow .2s,border-color .2s;animation:fadeUp .4s ease both;display:flex;flex-direction:column;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-.card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.09);border-color:var(--line2);}
-.card.hidden{display:none;}
-.card-accent{height:4px;width:100%;}
-.card-body{padding:16px 18px 14px;flex:1;display:flex;flex-direction:column;}
-.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
-.badge{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
-.role-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;}
-.card h3{font-size:13.5px;font-weight:700;line-height:1.35;letter-spacing:-0.2px;margin-bottom:7px;color:var(--ink);}
-.card-desc{font-size:11.5px;color:var(--ink3);line-height:1.65;font-weight:400;flex:1;}
-.exec-tag{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);background:var(--paper2);padding:2px 8px;border-radius:10px;width:fit-content;}
-.card-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 12px;border-top:1px solid var(--line);}
-.priority-pill{display:flex;align-items:center;gap:5px;}
-.pips{display:flex;gap:3px;}
-.pip{width:5px;height:5px;border-radius:50%;background:var(--paper3);}
-.pip.on-high{background:#E24B4A;}.pip.on-med{background:#EF9F27;}.pip.on-low{background:#639922;}
-.status-dot{width:6px;height:6px;border-radius:50%;background:#639922;box-shadow:0 0 0 3px rgba(99,153,34,0.2);animation:pulse 2.5s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(99,153,34,0.2);}50%{box-shadow:0 0 0 5px rgba(99,153,34,0.08);}}
-.card.done{opacity:0.55;background:var(--paper2);}
-.card.done:hover{opacity:0.75;}
-.card.done .card-accent{opacity:0.4;}
-.done-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;display:inline-flex;align-items:center;gap:5px;color:#2E6B0E;background:#D8EFC5;padding:3px 9px;border-radius:20px;}
-.done-badge::before{content:'✓ ';}
-
-/* LIST VIEW */
-.list-view .cat-grid{grid-template-columns:1fr;gap:4px;}
-.list-view .card{flex-direction:row;border-radius:10px;}
-.list-view .card-accent{width:4px;height:auto;flex-shrink:0;border-radius:0;}
-.list-view .card-body{flex-direction:row;align-items:center;gap:16px;padding:11px 16px;}
-.list-view .card h3{margin-bottom:0;font-size:12.5px;min-width:200px;max-width:240px;flex-shrink:0;}
-.list-view .card-desc{display:none;}
-.list-view .exec-tag{display:none;}
-.list-view .card-footer{border-top:none;padding:11px 16px 11px 0;margin-left:auto;flex-shrink:0;}
-.list-view .card-top{flex-shrink:0;}
-
-/* EMPTY */
-.empty{max-width:1200px;margin:48px auto;padding:0 48px;text-align:center;display:none;}
-.empty p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink4);letter-spacing:0.05em;}
-
-/* FOOTER */
-.footer{max-width:1200px;margin:48px auto 0;padding:24px 48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
-.footer-l{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink4);letter-spacing:0.1em;text-transform:uppercase;}
-.legend{display:flex;gap:16px;flex-wrap:wrap;}
-.leg-item{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);letter-spacing:0.08em;text-transform:uppercase;}
-.leg-dot{width:8px;height:8px;border-radius:50%;}
-
-@media(max-width:768px){
-  .hero,.controls,.person-nav,.person-section,.footer{padding-left:20px;padding-right:20px;}
-  .hero h1{font-size:36px;letter-spacing:-1px;}
-  .kpi{padding:16px 16px;}
-  .kpi-n{font-size:26px;}
+@media(max-width:820px){
+  .kpis{grid-template-columns:repeat(2,1fr);}
+  .shell{grid-template-columns:1fr;}
+  .side{position:static;max-height:none;margin-bottom:14px;}
+  .main{padding-left:0;}
+  .card .body{flex-direction:column;align-items:flex-start;gap:12px;}
+  .meta{align-items:flex-start;min-width:0;}
+  .resp{align-items:flex-start;}
+  .tb-right{margin-left:0;width:100%;}
 }
 </style>
 </head>
 <body>
 
-<section class="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-eyebrow">Cia de Talentos · Desenvolvimento de Negócios</div>
-      <h1>Command<br><em>Center</em></h1>
-      <p class="hero-sub">Painel de projetos ativos da área DN.<br>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;" id="ts"></span>
-      </p>
-    </div>
-    <div class="hero-right">
-      <div class="kpi">
-        <span class="kpi-n" id="k-total" style="color:var(--ink)">—</span>
-        <span class="kpi-l">Total</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-n" id="k-lead" style="color:#0A6645">—</span>
-        <span class="kpi-l">Líder</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-n" id="k-sup" style="color:#5A3E9B">—</span>
-        <span class="kpi-l">Apoio</span>
-      </div>
-      <div class="kpi">
-        <span class="kpi-n" id="k-hi" style="color:#971F1F">—</span>
-        <span class="kpi-l">Alta prior.</span>
-      </div>
-    </div>
+<div class="topbar">
+  <div class="logo"><div class="mark">C</div><div class="wm">Cia de <span>Talentos</span></div></div>
+  <div class="divider"></div>
+  <div class="app">Projetos DN<small>Desenvolvimento de Negócios</small></div>
+  <div class="spacer"></div>
+  <div class="date" id="date"></div>
+</div>
+
+<div class="overview">
+  <div class="kpis">
+    <div class="kpi k-total"><div class="n"><span id="k-total">—</span><small id="k-total-of"></small></div><div class="l">Projetos</div></div>
+    <div class="kpi k-run"><div class="n" style="color:var(--blue)" id="k-run">—</div><div class="l">Em andamento</div></div>
+    <div class="kpi k-hold"><div class="n" style="color:#c24e00" id="k-hold">—</div><div class="l">Stand by</div></div>
+    <div class="kpi k-new"><div class="n" style="color:#6b6e74" id="k-new">—</div><div class="l">Não iniciado</div></div>
+    <div class="kpi k-prio"><div class="n" style="color:var(--red)" id="k-prio">—</div><div class="l">Prioridade</div></div>
   </div>
-</section>
-
-<!-- PERSON TABS -->
-<div class="person-nav" id="person-nav">
-  <button class="person-tab on" data-person="all" style="background:var(--ink);border-color:var(--ink)">
-    <span>Todos</span>
-  </button>
-  <button class="person-tab" data-person="gabriel" style="--pc:#1A56A0">
-    <div class="avatar" style="background:#1A56A0">G</div><span>Gabriel</span>
-  </button>
-  <button class="person-tab" data-person="fernanda" style="--pc:#8B1A4A">
-    <div class="avatar" style="background:#8B1A4A">F</div><span>Fernanda</span>
-  </button>
-  <button class="person-tab" data-person="sabrina" style="--pc:#0A6645">
-    <div class="avatar" style="background:#0A6645">S</div><span>Sabrina</span>
-  </button>
-  <button class="person-tab" data-person="paloma" style="--pc:#5A3E9B">
-    <div class="avatar" style="background:#5A3E9B">P</div><span>Paloma</span>
-  </button>
-  <button class="person-tab" data-person="sara" style="--pc:#8C4A00">
-    <div class="avatar" style="background:#8C4A00">S</div><span>Sara</span>
-  </button>
-
-  <div class="cat-filters" style="margin-left:auto;" id="cat-filters">
-    <button class="fb on" data-cat="all">Todas categorias</button>
-    <button class="fb" data-cat="crm">CRM</button>
-    <button class="fb" data-cat="growth">Growth</button>
-    <button class="fb" data-cat="playbook">Playbooks</button>
-    <button class="fb" data-cat="data">Dados</button>
-    <button class="fb" data-cat="auto">Automação</button>
-    <button class="fb" data-cat="agent">Agentes IA</button>
-    <button class="fb" data-cat="ops">Ops</button>
-    <button class="fb" data-cat="dash">Dashboard</button>
-    <button class="fb" data-cat="event">Eventos</button>
+  <div class="distro">
+    <div class="dt"><span>Distribuição por situação</span><b id="d-total"></b></div>
+    <div class="bar" id="d-bar"></div>
+    <div class="dlegend" id="d-legend"></div>
   </div>
 </div>
 
-<div class="controls">
-  <div class="search-box">
-    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" placeholder="Buscar projeto..." id="search" oninput="render()">
-  </div>
-  <div class="view-toggle">
-    <button class="vtb on" id="vt-grid" onclick="setView('grid')" title="Grade">
-      <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
-    </button>
-    <button class="vtb" id="vt-list" onclick="setView('list')" title="Lista">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-    </button>
+<div class="toolbar">
+  <div class="tb-count"><span id="tb-count">—</span></div>
+  <div class="chips-active" id="chips-active"></div>
+  <button class="tb-clear" id="tb-clear" onclick="clearFilters()" style="display:none">Limpar filtros</button>
+  <div class="tb-right">
+    <select class="sortsel" id="sort" onchange="setSort(this.value)">
+      <option value="prio">Ordenar: Prioridade</option>
+      <option value="title">Ordenar: A–Z</option>
+      <option value="status">Ordenar: Situação</option>
+    </select>
+    <div class="seg" id="seg-group">
+      <button class="on" data-g="status">Situação</button>
+      <button data-g="cat">Categoria</button>
+      <button data-g="person">Responsável</button>
+    </div>
+    <div class="seg" id="seg-view">
+      <button class="on" data-v="list" title="Lista"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Lista</button>
+      <button data-v="board" title="Quadro"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10" y="3" width="6" height="12" rx="1"/><rect x="17" y="3" width="4" height="16" rx="1"/></svg>Quadro</button>
+    </div>
   </div>
 </div>
 
-<div id="content"></div>
-<div class="empty" id="empty"><p>Nenhum projeto encontrado.</p></div>
+<div class="shell">
+  <aside class="side scroll">
+    <div class="search">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Buscar projeto ou pessoa..." oninput="render()">
+    </div>
+    <button class="prio-btn" id="prio-btn" onclick="togglePrio()">
+      <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Só prioridades
+    </button>
+    <div class="grp"><div class="grp-t">Situação</div><div class="flist" id="f-status"></div></div>
+    <div class="grp"><div class="grp-t">Categoria</div><div class="flist" id="f-cat"></div></div>
+    <div class="grp"><div class="grp-t">Responsável</div><div class="flist" id="f-person"></div></div>
+    <div class="grp"><div class="grp-t">Origem</div><div class="flist" id="f-src"></div></div>
+  </aside>
 
-<footer class="footer">
-  <div class="footer-l">Atualizado em <span id="ft-date"></span></div>
-  <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:#E24B4A"></div>Alta prioridade</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#EF9F27"></div>Média prioridade</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#639922"></div>Baixa prioridade</div>
-  </div>
-</footer>
+  <main class="main">
+    <div id="content"></div>
+    <div class="empty" id="empty">
+      <div class="em-ic"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      <p>Nenhum projeto encontrado</p>
+      <small>Tente remover alguns filtros</small>
+      <button onclick="clearFilters()">Limpar filtros</button>
+    </div>
+  </main>
+</div>
+
+<div class="foot">Atualizado em <span id="fdate"></span> · Fontes: planejamento (docs Sara &amp; Sabrina) + Bitrix (Gabriel) · Deduplicado</div>
 
 <script>
 const CAT = {
-  crm:     {label:'CRM',             color:'#1A56A0', bg:'#D6E7FA'},
-  growth:  {label:'Growth',          color:'#0A6645', bg:'#CFF0E3'},
-  playbook:{label:'Playbook',        color:'#5A3E9B', bg:'#E8E2F9'},
-  data:    {label:'Dados',           color:'#2E6B0E', bg:'#D8EFC5'},
-  auto:    {label:'Automação',       color:'#8C4A00', bg:'#FDEACC'},
-  agent:   {label:'Agente IA',       color:'#8B1A4A', bg:'#FAD9E9'},
-  ops:     {label:'Ops / Processos', color:'#971F1F', bg:'#FBDADA'},
-  dash:    {label:'Dashboard',       color:'#1A56A0', bg:'#D6E7FA'},
-  event:   {label:'Eventos',         color:'#0A5C6E', bg:'#CDE9F0'},
+  crm:     {label:'CRM / Bitrix',    color:'#004fce', bg:'#e9eeff'},
+  data:    {label:'Dados',           color:'#00a85c', bg:'#dcf4e8'},
+  growth:  {label:'Growth',          color:'#5c7a00', bg:'#eef7cc'},
+  auto:    {label:'Automação',       color:'#ff6b1a', bg:'#ffe8d6'},
+  agent:   {label:'Agentes IA',      color:'#2e22b8', bg:'#e6e3fb'},
+  ops:     {label:'Ops / Processos', color:'#EE222B', bg:'#fbdcdd'},
+  playbook:{label:'Playbooks',       color:'#e35fcf', bg:'#fbe4f7'},
+  dash:    {label:'Dashboard',       color:'#004fce', bg:'#e9eeff'},
+  event:   {label:'Eventos',         color:'#1d1d1b', bg:'#e8e8e8'},
 };
-
 const PEOPLE = {
-  gabriel:  {name:'Gabriel de Assis', role:'RevOps / BI / Data Science', color:'#1A56A0'},
-  fernanda: {name:'Fernanda',          role:'Desenvolvimento de Negócios', color:'#8B1A4A'},
-  sabrina:  {name:'Sabrina',           role:'Desenvolvimento de Negócios', color:'#0A6645'},
-  paloma:   {name:'Paloma',            role:'Desenvolvimento de Negócios', color:'#5A3E9B'},
-  sara:     {name:'Sara',              role:'SDR',                         color:'#8C4A00'},
+  gabriel:  {name:'Gabriel de Assis', role:'RevOps / BI / Data', color:'#004fce'},
+  fernanda: {name:'Fernanda',          role:'Desenv. de Negócios', color:'#2e22b8'},
+  sabrina:  {name:'Sabrina',           role:'Backoffice / DN', color:'#00a85c'},
+  paloma:   {name:'Paloma',            role:'Desenv. de Negócios', color:'#e35fcf'},
+  sara:     {name:'Sara',              role:'SDR', color:'#ff6b1a'},
+  pedro:    {name:'Pedro',             role:'Execução / Automatização', color:'#7c7f87'},
 };
+const ROLE = {lead:'Líder', support:'Apoio', sponsor:'Sponsor', exec:'Execução'};
+const STMAP = {
+  run: {cls:'p-run', lab:'Em andamento', color:'#004fce'},
+  hold:{cls:'p-hold',lab:'Stand by', color:'#ff6b1a'},
+  new: {cls:'p-new', lab:'Não iniciado', color:'#7c7f87'},
+  test:{cls:'p-test',lab:'Em teste', color:'#2e22b8'},
+  adj: {cls:'p-adj', lab:'Em ajustes', color:'#ff6b1a'},
+  stop:{cls:'p-stop',lab:'Parado', color:'#EE222B'},
+  block:{cls:'p-block',lab:'Bloqueado', color:'#1d1d1b'},
+  done:{cls:'p-done',lab:'Concluído', color:'#00a85c'},
+};
+const STATUS_ORDER=['run','test','hold','new','block','done'];
 
 const PROJECTS = [
-  // ─── GABRIEL ───
-  {person:'gabriel', cat:'crm',     role:'support', pri:'high', title:'Migração do CRM',
-   desc:'Migração Moskit → Bitrix24 em 7 fases com Arrecife Digital. Mapeamento de dados, fluxos pós-venda, NPS e integração futura com Omie ERP.'},
-  {person:'gabriel', cat:'crm',     role:'support', pri:'high', title:'Saneamento da Base CRM',
-   desc:'Limpeza, deduplicação e enriquecimento da base. Padronização de campos e validação de integridade antes da migração.'},
-  {person:'gabriel', cat:'crm',     role:'lead',    pri:'med',  title:'Atualização de Produtos Base',
-   desc:'Revisão do catálogo de produtos no CRM — nomenclaturas, precificações e atributos alinhados à nova estrutura comercial.'},
-  {person:'gabriel', cat:'data',    role:'lead',    pri:'high', title:'Segmentação Pedras',
-   desc:'Clusterização RFV + qualitativo: Diamante, Ouro, Prata e Ferro. Base para priorização de farmer e estratégia de retenção.'},
-  {person:'gabriel', cat:'data',    role:'lead',    pri:'high', title:'Segmentação Empresas',
-   desc:'ICP para prospecção por porte, setor, região e potencial de receita. Define critérios de entrada no funil outbound.'},
-  {person:'gabriel', cat:'data',    role:'support', pri:'med',  title:'Pricing',
-   desc:'Modelagem de precificação de Trainee, Estágio e Consultoria. Análise de competitividade, elasticidade e margens.'},
-  {person:'gabriel', cat:'growth',  role:'lead',    pri:'high', title:'Aceleração Growth Machine',
-   desc:'Máquina outbound via Apollo, Expandi/Waalaxy e Growth Machine. Cadências SDR com Sara para empresas +R$300M.'},
-  {person:'gabriel', cat:'growth',  role:'support', pri:'high', title:'Cronograma de Prospecção',
-   desc:'Planejamento anual com cadência por produto, ciclos mensais, metas de conversão e calendário de ativação.'},
-  {person:'gabriel', cat:'auto',    role:'lead',    pri:'high', title:'Automatização Cadência SDR', status:'done',
-   desc:'Automação completa das cadências via Growth Machine + Bitrix24: e-mail, LinkedIn e follow-up com qualificação automática.'},
-  {person:'gabriel', cat:'auto',    role:'lead',    pri:'high', title:'Enriquecimento de Contatos',
-   desc:'Pipeline de enriquecimento de leads via Apollo. Dados firmográficos, cargos e sinais de compra para qualificação outbound.'},
-  {person:'gabriel', cat:'auto',    role:'sponsor', pri:'med',  title:'Automatização de Propostas',
-   desc:'Geração automatizada de propostas comerciais — integração CRM + templates + IA para documentos personalizados.'},
-  {person:'gabriel', cat:'auto',    role:'support', pri:'med',  title:'Automatização de Transcrição',
-   desc:'Pipeline de transcrição automática de reuniões comerciais com IA para extração de insights e ações de follow-up.'},
+  {cat:'crm', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'10/04/2026'},
+   title:'Consultoria Bitrix', desc:'Acompanhamento da consultoria de implementação do Bitrix24.'},
+  {cat:'crm', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], chrono:{start:'27/02/2026',end:'~27/06/2026',note:'Prazo estimado ~4 meses'},
+   title:'Definição dos Campos Personalizados (Bitrix)', desc:'Definição da estrutura de campos personalizados do CRM no Bitrix24.'},
+  {cat:'crm', status:'hold', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Stand by',on:'22/06/2026'},
+   title:'Definição da Migração do Banco de Dados (Bitrix)', desc:'Planejamento da migração da base de dados para o Bitrix24.'},
+  {cat:'crm', status:'new', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado',on:'22/06/2026'},
+   title:'Automações de Cadência de Follow-up (Bitrix)', desc:'Automação das cadências de follow-up dentro do Bitrix24.'},
+  {cat:'crm', status:'new', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado',on:'07/01/2026'},
+   title:'Automações de Cadência — Motivos de Perda (Bitrix)', desc:'Automação de cadências vinculadas aos motivos de perda no funil.'},
+  {cat:'crm', status:'new', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado',on:'07/01/2026'},
+   title:'Governança, Treinamento e Adoção (Bitrix)', desc:'Governança de uso, treinamento da equipe e plano de adoção do Bitrix24.'},
+  {cat:'crm', status:'new', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado (0/5)',on:'29/10/2025'},
+   title:'Implementação Gestão de Tarefas Bitrix', desc:'Estruturação do módulo de gestão de tarefas e projetos no Bitrix24.'},
+  {cat:'crm', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'27/03/2026'},
+   title:'Etapas e KPIs da Implementação do Bitrix', desc:'Definição das etapas do rollout e dos KPIs de acompanhamento.'},
+  {cat:'crm', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'30/06/2026'},
+   title:'Pré-vendas e Vendas — CRM (Bitrix)', desc:'Modelagem dos funis de pré-vendas e vendas no CRM do Bitrix24.'},
+  {cat:'crm', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'05/06/2026'},
+   title:'Fluxo Bitrix Financeiro', desc:'Desenho do fluxo financeiro integrado ao Bitrix24.'},
+  {cat:'crm', status:'new', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado',on:'30/04/2026'},
+   title:'CRM Internacional', desc:'Estruturação do CRM para operação internacional.'},
+  {cat:'crm', status:'run', src:'plan', resp:[{p:'gabriel',role:'support'}],
+   title:'Saneamento da Base CRM', desc:'Limpeza, deduplicação e enriquecimento da base antes da migração.'},
+  {cat:'crm', status:'run', src:'plan', resp:[{p:'gabriel',role:'lead'}],
+   title:'Atualização de Produtos Base', desc:'Revisão do catálogo de produtos no CRM — nomenclaturas, precificações e atributos.'},
 
+  {cat:'data', status:'new', src:'both', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado',on:'27/02/2026'},
+   title:'Segmentação Pedras', desc:'Clusterização RFV + qualitativo: Diamante, Ouro, Prata e Ferro. Base para priorização de farmer e retenção.'},
+  {cat:'data', status:'run', src:'both', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'25/06/2026'},
+   title:'Segmentação CRM (LinkedIn)', desc:'Segmentação/enriquecimento da base do CRM a partir de dados do LinkedIn.'},
+  {cat:'data', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'22/06/2026'},
+   title:'Inteligência de Mercado — Empresas', desc:'Estudo de inteligência de mercado sobre empresas-alvo para apoiar prospecção e posicionamento.'},
+  {cat:'data', status:'run', src:'both', prio:true, resp:[{p:'gabriel',role:'support'}], bx:{st:'Em andamento',on:'14/04/2026'},
+   title:'Pricing', desc:'Modelagem de precificação de Trainee, Estágio e Consultoria. Competitividade, elasticidade e margens.'},
+  {cat:'data', status:'run', src:'plan', prio:true, resp:[{p:'fernanda',role:'sponsor'}],
+   title:'Otimização Comissão de Vendas', desc:'Revisão da política de comissões: cenários, fairness e incentivos por produto.'},
 
-  {person:'gabriel', cat:'agent',   role:'lead',    pri:'med',  title:'Agente de Proposta (Melhorias)',
-   desc:'Refinamento de prompts, personalização e integração mais profunda com dados do CRM no agente de propostas.'},
-  {person:'gabriel', cat:'agent',   role:'support', pri:'med',  title:'Agente Jurídico',
-   desc:'Suporte jurídico ao time comercial: revisão de cláusulas, alertas de risco e respostas a dúvidas de compliance.'},
-  {person:'gabriel', cat:'agent',   role:'lead',    pri:'med',  title:'Agente de Primeiro Atendimento',
-   desc:'Triagem e qualificação de leads inbound: coleta de dados, roteamento inteligente e pré-qualificação antes do handoff.'},
-  {person:'gabriel', cat:'agent',   role:'lead',    pri:'high', title:'Agente de BI',
-   desc:'Agente de inteligência de negócios para automação de análises, geração de relatórios e insights de dados comerciais e operacionais.'},
-  {person:'gabriel', cat:'agent',   role:'sponsor', pri:'med',  title:'Agente Resumo Reunião Farmers',
-   desc:'Resumo automático de reuniões com feedback e status por cliente. Gera visão consolidada da carteira de cada farmer responsável.'},
-  {person:'gabriel', cat:'agent',   role:'lead',    pri:'low',  title:'Claude para a Área',
-   desc:'Implantação do Claude como ferramenta de produtividade comercial: casos de uso, treinamento da equipe e agentes customizados.'},
-  {person:'gabriel', cat:'ops',     role:'lead',    pri:'high', title:'Processos Nova Estrutura de Vendas', status:'done',
-   desc:'Redesenho dos processos da nova estrutura comercial: fluxos hunter/farmer, responsabilidades por perfil, SLAs e integrações.'},
-  {person:'gabriel', cat:'ops',     role:'lead',    pri:'med',  title:'Gestão de Parcerias',
-   desc:'Modelo de gestão de parcerias: critérios de qualificação, onboarding, comissionamento e acompanhamento de performance.'},
-  {person:'gabriel', cat:'ops',     role:'lead',    pri:'med',  title:'Planejamento Ciclo 2026/2027',
-   desc:'Planejamento estratégico do próximo ciclo: metas, OKRs, produtos prioritários, estratégia de mercado e alocação de recursos.'},
-  {person:'gabriel', cat:'ops',     role:'sponsor', pri:'med',  title:'Mapeamento de Concorrência',
-   desc:'Ferramenta de análise competitiva e benchmarking de mercado para apoiar estratégia comercial e posicionamento.', exec:'Pedro'},
-  {person:'gabriel', cat:'dash',    role:'lead',    pri:'high', title:'Dashboard Comercial',
-   desc:'Dashboard Power BI cobrindo pipeline, CAC, conversão por etapa, sazonalidade, curva ABC e indicadores econômicos com DAX.'},
-  {person:'gabriel', cat:'event',   role:'support', pri:'med',  title:'Evento Carreira dos Sonhos e ENLA',
-   desc:'Apoio na organização e execução dos eventos Carreira dos Sonhos e ENLA. Suporte à estrutura, comunicação e operação.'},
-  {person:'gabriel', cat:'ops',     role:'lead',    pri:'low',  title:'Governança de Links da Área',
-   desc:'Organização e governança dos links, pastas e acessos da área de DN. Padronização de nomenclatura e controle de permissões.'},
+  {cat:'growth', status:'new', src:'both', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Não iniciado',on:'14/04/2026'},
+   title:'Aceleração Growth Machine', desc:'Máquina outbound via Apollo, Expandi/Waalaxy e Growth Machine. Cadências SDR para empresas +R$300M.'},
+  {cat:'growth', status:'run', src:'both', prio:true, resp:[{p:'sara',role:'lead'},{p:'gabriel',role:'support'}], bx:{st:'Em andamento',on:'22/06/2026'},
+   title:'Prospecção — Diagnóstico e Novo Formato', desc:'Diagnóstico do processo atual de prospecção e desenho de um novo formato de operação.'},
 
-  // ─── FERNANDA ───
-  {person:'fernanda', cat:'playbook', role:'sponsor', pri:'med',  title:'Gestão de Logos',
-   desc:'Playbook de gestão e uso de logos institucionais. Diretrizes de aplicação, versionamento e aprovação de ativos visuais.'},
-  {person:'fernanda', cat:'ops',      role:'sponsor', pri:'med',  title:'Calendário da Área DN',
-   desc:'Criação e manutenção do calendário de atividades, eventos e marcos da área de Desenvolvimento de Negócios.'},
-  {person:'fernanda', cat:'data',     role:'sponsor', pri:'high', title:'Otimização Comissão de Vendas',
-   desc:'Revisão e otimização da política de comissões do time de vendas. Modelagem de cenários, fairness e incentivos por produto.'},
-  {person:'fernanda', cat:'agent',    role:'sponsor', pri:'med',  title:'Agente Jurídico',
-   desc:'Suporte jurídico ao time comercial: revisão de cláusulas, alertas de risco e respostas a dúvidas de compliance em negociações.'},
+  {cat:'auto', status:'run', src:'both', resp:[{p:'gabriel',role:'sponsor'}], bx:{st:'Em andamento',on:'30/03/2026'},
+   title:'Automatização de Propostas (NewToo)', desc:'Geração automatizada de propostas comerciais — CRM + templates + IA.'},
+  {cat:'auto', status:'hold', src:'plan', resp:[{p:'gabriel',role:'support'}],
+   title:'Automatização de Transcrição', desc:'Pipeline de transcrição automática de reuniões comerciais com IA para insights e follow-up.'},
 
-  // ─── SABRINA ───
-  {person:'sabrina', cat:'playbook', role:'sponsor', pri:'med',  title:'Guia de Backoffice',
-   desc:'Documentação dos processos operacionais do backoffice comercial — suporte pós-venda, fluxos internos e integrações.'},
-  {person:'sabrina', cat:'agent',    role:'sponsor', pri:'high', title:'Oráculo DN (NotebookLM)',
-   desc:'Agente de inteligência em HTML/NotebookLM para suporte à área de Desenvolvimento de Negócios com respostas contextualizadas.'},
-  {person:'sabrina', cat:'ops',      role:'sponsor', pri:'med',  title:'Otimização de Modelos de Proposta',
-   desc:'Revisão e melhoria dos templates de proposta comercial: proposta de valor, estrutura, linguagem e alinhamento ao ICP.'},
-  {person:'sabrina', cat:'agent',    role:'sponsor', pri:'med',  title:'Agente de RFQ',
-   desc:'Agente especializado em processos de RFQ (Request for Quotation): triagem, resposta e gestão de solicitações de cotação.'},
-  {person:'sabrina', cat:'ops',      role:'support', pri:'low',  title:'Atualização de Certidões',
-   desc:'Apoio no processo de atualização periódica de certidões negativas e documentação jurídica da área comercial.', exec:'Pedro'},
+  {cat:'agent', status:'hold', src:'both', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Stand by',on:'22/06/2026'},
+   title:'Agente de BI', desc:'Agente de inteligência de negócios para automação de análises, relatórios e insights.'},
+  {cat:'agent', status:'hold', src:'both', resp:[{p:'gabriel',role:'lead'}], chrono:{start:'26/11/2025',note:'Antigos "Primeiro Atendimento" + "Cléo", agora unificados'},
+   title:'Agente de Primeiro Atendimento (Cléo)', desc:'Triagem e qualificação de leads inbound: coleta de dados, roteamento e pré-qualificação. Inclui o ciclo de teste e produção do agente Cléo.'},
+  {cat:'agent', status:'hold', src:'plan', resp:[{p:'gabriel',role:'support'},{p:'fernanda',role:'sponsor'}],
+   title:'Agente Jurídico', desc:'Suporte jurídico ao time comercial: revisão de cláusulas, alertas de risco e dúvidas de compliance.'},
+  {cat:'agent', status:'run', src:'plan', prio:true, resp:[{p:'sabrina',role:'sponsor'}], chrono:{end:'31/07/2026',note:'Previsão de conclusão'},
+   title:'Oráculo DN (NotebookLM / HTML)', desc:'Agente de inteligência em HTML/NotebookLM para suporte à área de DN com respostas contextualizadas.'},
+  {cat:'agent', status:'test', src:'plan', prio:true, resp:[{p:'sabrina',role:'sponsor'},{p:'gabriel',role:'support'}], chrono:{note:'Em teste nos próximos RFI/RFQ'},
+   title:'Agente de RFQ / RFI', desc:'Agente especializado em RFQ/RFI: triagem, resposta e gestão de solicitações de cotação.'},
+  {cat:'agent', status:'run', src:'plan', prio:true, resp:[{p:'gabriel',role:'lead'}],
+   title:'Claude para a Área', desc:'Implantação do Claude como ferramenta de produtividade comercial: casos de uso, treinamento e agentes customizados.'},
 
-  // ─── PALOMA ───
-  {person:'paloma', cat:'growth',   role:'sponsor', pri:'high', title:'Cronograma de Prospecção',
-   desc:'Sponsorship do planejamento e acompanhamento das cadências de prospecção outbound por ciclo e produto.'},
-  {person:'paloma', cat:'playbook', role:'sponsor', pri:'med',  title:'Guia de Hunter',
-   desc:'Playbook operacional para hunters: metodologia de abordagem, qualificação, argumentários e critérios de avanço no funil.'},
+  {cat:'ops', status:'run', src:'both', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento'},
+   title:'Gestão de Parcerias', desc:'Modelo de gestão de parcerias: qualificação, onboarding, comissionamento e acompanhamento de performance.'},
+  {cat:'ops', status:'run', src:'bitrix', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'26/06/2026'},
+   title:'Representantes', desc:'Gestão do canal de representantes / indicação individual de parceiros. (Antigo "Indicação Parceiro Individual".)'},
+  {cat:'ops', status:'run', src:'bitrix', resp:[{p:'gabriel',role:'lead'}],
+   title:'Construção de OKR', desc:'Definição e estruturação dos OKRs da área — objetivos, resultados-chave e metas por frente comercial.'},
+  {cat:'ops', status:'run', src:'plan', prio:true, resp:[{p:'gabriel',role:'sponsor'},{p:'pedro',role:'exec'}],
+   title:'Mapeamento de Concorrência', desc:'Análise competitiva e benchmarking de mercado. Automatização a cargo do Pedro.'},
+  {cat:'ops', status:'hold', src:'both', resp:[{p:'gabriel',role:'lead'},{p:'sabrina',role:'support'}], chrono:{start:'12/12/2025',end:'17/07/2026',note:'Arquitetura (Gabriel) · Organização (Sabrina)'},
+   title:'Organização de Pastas e Arquivos — SharePoint DN', desc:'Governança de links, pastas e acessos da área DN no SharePoint. Padronização de nomenclatura e permissões.'},
+  {cat:'ops', status:'test', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em teste',on:'22/06/2026'},
+   title:'Repositório', desc:'Estruturação de repositório central de materiais da área.'},
+  {cat:'ops', status:'run', src:'plan', prio:true, resp:[{p:'sabrina',role:'sponsor'}], chrono:{end:'31/07/2026',note:'Previsão de conclusão'},
+   title:'Otimização de Modelos de Proposta', desc:'Revisão dos templates de proposta comercial: proposta de valor, estrutura, linguagem e ICP.'},
+  {cat:'ops', status:'hold', src:'plan', prio:true, resp:[{p:'fernanda',role:'lead'}], chrono:{note:'Stand by — cronograma após priorização'},
+   title:'Fluxograma Processos FACET5', desc:'Mapeamento e documentação dos processos relacionados ao FACET5. (Passou de Sara para Fernanda.)'},
+  {cat:'ops', status:'hold', src:'plan', resp:[{p:'sabrina',role:'support'},{p:'pedro',role:'exec'}], chrono:{note:'Stand by — solicitado ao Pedro, sem resposta'},
+   title:'Atualização de Certidões', desc:'Atualização periódica de certidões negativas e documentação jurídica da área comercial.'},
+  {cat:'ops', status:'run', src:'bitrix', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'05/06/2026'},
+   title:'Fechamento Quadrimestral Financeiro', desc:'Fechamento financeiro do quadrimestre.'},
+  {cat:'ops', status:'hold', src:'bitrix', resp:[{p:'gabriel',role:'lead'}], bx:{st:'Stand by',on:'10/04/2026'},
+   title:'Métricas de Sucesso — 1ª Liderança', desc:'Definição das métricas de sucesso para a primeira camada de liderança.'},
+  {cat:'ops', status:'run', src:'bitrix', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento',on:'30/04/2026'},
+   title:'Consolidado Parcerias', desc:'Consolidação de dados/resultados das parcerias. (Antigo "Consolidado Bettha".)'},
+  {cat:'ops', status:'run', src:'bitrix', prio:true, resp:[{p:'sara',role:'lead'}], bx:{st:'Em andamento · Prioridade',on:'06/05/2026'},
+   title:'Detalhamento Motivo de Perda "Custo-Benefício"', desc:'Detalhamento do motivo de perda "custo-benefício" no funil.'},
+  {cat:'ops', status:'run', src:'bitrix', prio:true, resp:[{p:'gabriel',role:'lead'}], bx:{st:'Em andamento'},
+   title:'Redflags Pré-Vendas (Luana)', desc:'Mapeamento de red flags no processo de pré-vendas (com Luana).'},
 
-  // ─── SARA ───
-  {person:'sara', cat:'growth',   role:'support', pri:'high', title:'Cronograma de Prospecção',
-   desc:'Execução operacional das cadências de prospecção outbound. Ativação de contatos via Apollo, e-mail e LinkedIn.'},
-  {person:'sara', cat:'ops',      role:'lead',    pri:'med',  title:'Fluxograma Processos FACET5',
-   desc:'Mapeamento e documentação dos processos relacionados ao FACET5 dentro do fluxo comercial e de entrega.'},
-  {person:'sara', cat:'playbook', role:'sponsor', pri:'med',  title:'Guia de SDR',
-   desc:'Playbook operacional para SDRs: scripts de abordagem, qualificação, SLA de follow-up, cadências e métricas de performance.'},
+  {cat:'playbook', status:'run', src:'plan', prio:true, resp:[{p:'sara',role:'lead'}], chrono:{start:'26/01/2026',end:'31/07/2026',note:'Em andamento (contínuo)'},
+   title:'Guia de SDR', desc:'Playbook operacional para SDRs: scripts, qualificação, SLA de follow-up, cadências e métricas.'},
+  {cat:'playbook', status:'run', src:'plan', prio:true, resp:[{p:'paloma',role:'sponsor'}],
+   title:'Guia de Hunter', desc:'Playbook operacional para hunters: abordagem, qualificação, argumentários e critérios de avanço no funil.'},
+  {cat:'playbook', status:'run', src:'plan', prio:true, resp:[{p:'sabrina',role:'sponsor'}], chrono:{note:'Em andamento — em revisão devido a mudanças na área e na CT'},
+   title:'Guia de Backoffice', desc:'Documentação dos processos operacionais do backoffice comercial — suporte pós-venda, fluxos internos e integrações.'},
+  {cat:'playbook', status:'run', src:'plan', prio:true, resp:[{p:'fernanda',role:'sponsor'}],
+   title:'Gestão de Logos', desc:'Playbook de gestão e uso de logos institucionais. Diretrizes de aplicação, versionamento e aprovação de ativos.'},
+
+  {cat:'dash', status:'hold', src:'both', prio:true, resp:[{p:'gabriel',role:'lead'}], chrono:{start:'22/06/2026',end:'~22/09/2026',note:'Bitrix: Stand by · prazo estimado ~3 meses'},
+   title:'Dashboard Comercial (26/27)', desc:'Dashboard Power BI: pipeline, CAC, conversão por etapa, sazonalidade, curva ABC e indicadores econômicos com DAX.'},
+
+  {cat:'event', status:'run', src:'plan', resp:[{p:'gabriel',role:'support'}],
+   title:'Evento Carreira dos Sonhos e ENLA', desc:'Apoio na organização e execução dos eventos Carreira dos Sonhos e ENLA.'},
 ];
 
-const ROLE_LABELS = {lead:'Líder', support:'Apoio', sponsor:'Líder'};
-const PRI_LABELS  = {high:'Alta', med:'Média', low:'Baixa'};
-const PRI_CLS     = {high:'on-high', med:'on-med', low:'on-low'};
+let fCat='all', fPerson='all', fSrc='all', fStatus='all', prioOnly=false, groupMode='status', viewMode='list', sortMode='prio';
 
-let activePerson = 'all';
-let activeCat    = 'all';
-let activeView   = 'grid';
-
-function pips(pri){
-  const cls = PRI_CLS[pri];
-  const n   = {high:3,med:2,low:1}[pri];
-  let h='<div class="pips">';
-  for(let i=0;i<3;i++) h+=`<div class="pip ${i<n?cls:''}"></div>`;
-  return h+'</div>';
+function anyFilter(){return fCat!=='all'||fPerson!=='all'||fSrc!=='all'||fStatus!=='all'||prioOnly||document.getElementById('search').value.trim()!=='';}
+function passes(p){
+  if(prioOnly && !p.prio) return false;
+  if(fStatus!=='all' && p.status!==fStatus) return false;
+  if(fCat!=='all' && p.cat!==fCat) return false;
+  if(fPerson!=='all' && !p.resp.some(r=>r.p===fPerson)) return false;
+  if(fSrc==='plan'   && !(p.src==='plan'||p.src==='both'))   return false;
+  if(fSrc==='bitrix' && !(p.src==='bitrix'||p.src==='both')) return false;
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  if(q){const hay=(p.title+' '+p.desc+' '+p.resp.map(r=>PEOPLE[r.p].name).join(' ')).toLowerCase(); if(!hay.includes(q)) return false;}
+  return true;
 }
-
-function makeCard(p, delay){
-  const m = CAT[p.cat];
-  const exec = p.exec ? `<div class="exec-tag">▶ Execução: ${p.exec}</div>` : '';
-  const isDone = p.status === 'done';
-  const footer = isDone
-    ? `<span class="done-badge">Concluído</span><span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink4);letter-spacing:.08em">✓</span>`
-    : `<div class="priority-pill">${pips(p.pri)}<span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-left:4px">${PRI_LABELS[p.pri]}</span></div><div class="status-dot" title="Em andamento"></div>`;
-  return `<div class="card${isDone?' done':''}" data-person="${p.person}" data-cat="${p.cat}" data-role="${p.role}" data-pri="${p.pri}" style="animation-delay:${delay}ms">
-    <div class="card-accent" style="background:${m.color}"></div>
-    <div class="card-body">
-      <div class="card-top">
-        <span class="badge" style="background:${m.bg};color:${m.color}">${m.label}</span>
-        <span class="role-badge">${ROLE_LABELS[p.role]}</span>
+function sortItems(items){
+  const arr=items.slice();
+  if(sortMode==='prio') arr.sort((a,b)=>(b.prio?1:0)-(a.prio?1:0)||a.title.localeCompare(b.title,'pt'));
+  else if(sortMode==='title') arr.sort((a,b)=>a.title.localeCompare(b.title,'pt'));
+  else if(sortMode==='status') arr.sort((a,b)=>STATUS_ORDER.indexOf(a.status)-STATUS_ORDER.indexOf(b.status)||a.title.localeCompare(b.title,'pt'));
+  return arr;
+}
+function srcChip(s){return s==='bitrix'?'<span class="chip chip-src">Bitrix</span>':s==='both'?'<span class="chip chip-src">Plano + Bitrix</span>':'<span class="chip chip-src">Planejamento</span>';}
+function prioChip(){return '<span class="chip chip-prio"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Prioridade</span>';}
+function chronoChip(){return '<span class="chip chip-chrono"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Cronograma</span>';}
+function respHTML(resp){return '<div class="resp">'+resp.map(r=>{const pe=PEOPLE[r.p];return `<div class="r"><div class="av" style="background:${pe.color}" title="${pe.name}">${pe.name[0]}</div><span class="rn">${pe.name.split(' ')[0]}</span><span class="rr">${ROLE[r.role]}</span></div>`;}).join('')+'</div>';}
+function cronHTML(p){let items='';if(p.chrono){const c=p.chrono;if(c.start)items+=`<div class="ci"><b>Início</b> ${c.start}</div>`;if(c.end)items+=`<div class="ci"><b>Previsão</b> ${c.end}</div>`;if(c.note)items+=`<div class="ci"><b>Nota</b> ${c.note}</div>`;}else if(p.bx){if(p.bx.st)items+=`<div class="ci"><b>Bitrix</b> ${p.bx.st}</div>`;if(p.bx.on)items+=`<div class="ci"><b>Desde</b> ${p.bx.on}</div>`;}return items?`<div class="cron">${items}</div>`:'';}
+function makeCard(p){const m=CAT[p.cat],sm=STMAP[p.status];
+  return `<div class="card${p.status==='done'?' is-done':''}">
+    <div class="accent" style="background:${m.color}"></div>
+    <div class="body">
+      <div class="lead">
+        <div class="chips"><span class="chip" style="background:${m.bg};color:${m.color}">${m.label}</span>${p.prio?prioChip():''}${p.chrono?chronoChip():''}${srcChip(p.src)}</div>
+        <h3>${p.title}</h3><p class="desc">${p.desc}</p>${cronHTML(p)}
       </div>
-      <h3>${p.title}</h3>
-      <p class="card-desc">${p.desc}</p>
-      ${exec}
+      <div class="meta">${respHTML(p.resp)}<span class="pill ${sm.cls}">${sm.lab}</span></div>
     </div>
-    <div class="card-footer">${footer}</div>
   </div>`;
 }
-
+function groupsFor(list){
+  let keys, meta;
+  if(groupMode==='cat'){keys=Object.keys(CAT).filter(k=>list.some(p=>p.cat===k)); meta=k=>({color:CAT[k].color,letter:CAT[k].label[0],title:CAT[k].label,sub:'',items:list.filter(p=>p.cat===k)});}
+  else if(groupMode==='person'){keys=Object.keys(PEOPLE).filter(k=>list.some(p=>p.resp[0].p===k)); meta=k=>({color:PEOPLE[k].color,letter:PEOPLE[k].name[0],title:PEOPLE[k].name,sub:PEOPLE[k].role+' · responsável principal',items:list.filter(p=>p.resp[0].p===k)});}
+  else {keys=STATUS_ORDER.filter(k=>list.some(p=>p.status===k)); meta=k=>({color:STMAP[k].color,letter:STMAP[k].lab[0],title:STMAP[k].lab,sub:'',items:list.filter(p=>p.status===k)});}
+  return keys.map(k=>meta(k));
+}
 function render(){
-  const q = document.getElementById('search').value.toLowerCase();
-  const content = document.getElementById('content');
-  content.innerHTML = '';
-  content.className = activeView === 'list' ? 'list-view' : '';
-
-  const persons = activePerson === 'all' ? Object.keys(PEOPLE) : [activePerson];
-  let total=0, lead=0, sup=0, hi=0;
-  let anyVisible = false;
-
-  persons.forEach(pid => {
-    const pinfo = PEOPLE[pid];
-    // group by cat
-    const catGroups = {};
-    PROJECTS.forEach(p => {
-      if(p.person !== pid) return;
-      if(activeCat !== 'all' && p.cat !== activeCat) return;
-      if(q && !p.title.toLowerCase().includes(q) && !p.desc.toLowerCase().includes(q)) return;
-      if(!catGroups[p.cat]) catGroups[p.cat] = [];
-      catGroups[p.cat].push(p);
-    });
-
-    const allItems = Object.values(catGroups).flat();
-    if(allItems.length === 0) return;
-    anyVisible = true;
-
-    const sec = document.createElement('div');
-    sec.className = 'person-section';
-    sec.dataset.person = pid;
-
-    const count = allItems.length;
-    let delay = 0;
-    let catHTML = '';
-
-    Object.entries(catGroups).forEach(([cat, items]) => {
-      const m = CAT[cat];
-      const cards = items.map(p => {
-        total++;
-        if(p.role==='lead') lead++;
-        else sup++;
-        if(p.pri==='high') hi++;
-        return makeCard(p, delay+=40);
-      }).join('');
-      catHTML += `<div class="cat-section">
-        <div class="cat-header">
-          <div class="cat-dot" style="background:${m.color}"></div>
-          <span class="cat-title">${m.label}</span>
-          <div class="cat-line"></div>
-          <span class="cat-count-sm">${items.length}p</span>
-        </div>
-        <div class="cat-grid">${cards}</div>
-      </div>`;
-    });
-
-    sec.innerHTML = `
-      <div class="person-header">
-        <div class="person-avatar-lg" style="background:${pinfo.color}">${pinfo.name[0]}</div>
-        <div>
-          <div class="person-name">${pinfo.name}</div>
-          <div class="person-role-label">${pinfo.role}</div>
-        </div>
-        <div class="person-proj-count">${count} projeto${count>1?'s':''}</div>
-      </div>
-      ${catHTML}`;
-
-    content.appendChild(sec);
-  });
-
-  document.getElementById('empty').style.display = anyVisible ? 'none' : 'block';
-  document.getElementById('k-total').textContent = total;
-  document.getElementById('k-lead').textContent  = lead;
-  document.getElementById('k-sup').textContent   = sup;
-  document.getElementById('k-hi').textContent    = hi;
-}
-
-function setView(v){
-  activeView = v;
-  document.getElementById('vt-grid').classList.toggle('on', v==='grid');
-  document.getElementById('vt-list').classList.toggle('on', v==='list');
-  render();
-}
-
-// Person tabs
-document.getElementById('person-nav').addEventListener('click', e => {
-  const btn = e.target.closest('.person-tab');
-  if(!btn) return;
-  activePerson = btn.dataset.person;
-  document.querySelectorAll('.person-tab').forEach(b => {
-    const pid = b.dataset.person;
-    b.classList.remove('on');
-    b.style.background = '';
-    b.style.borderColor = '';
-    b.style.color = '';
-  });
-  btn.classList.add('on');
-  if(activePerson === 'all'){
-    btn.style.background = 'var(--ink)';
-    btn.style.borderColor = 'var(--ink)';
-    btn.style.color = '#fff';
+  const list=PROJECTS.filter(passes);
+  const content=document.getElementById('content');content.innerHTML='';
+  const groups=groupsFor(list);
+  if(viewMode==='board'){
+    let cols='';
+    groups.forEach(g=>{cols+=`<div class="col"><div class="col-head"><div class="ic" style="background:${g.color}">${g.letter}</div><h3>${g.title}</h3><div class="cnt">${g.items.length}</div></div>${sortItems(g.items).map(makeCard).join('')}</div>`;});
+    content.innerHTML=`<div class="board scroll">${cols}</div>`;
   } else {
-    const c = PEOPLE[activePerson].color;
-    btn.style.background = c;
-    btn.style.borderColor = c;
-    btn.style.color = '#fff';
+    groups.forEach(g=>{
+      content.insertAdjacentHTML('beforeend',`<div class="grpsec"><div class="grphead"><div class="ic" style="background:${g.color}">${g.letter}</div><div><h2>${g.title}</h2>${g.sub?`<div class="sub">${g.sub}</div>`:''}</div><div class="rule"></div><div class="cnt">${g.items.length} proj${g.items.length>1?'s':''}</div></div><div class="list">${sortItems(g.items).map(makeCard).join('')}</div></div>`);
+    });
   }
-  render();
-});
+  document.getElementById('empty').style.display=list.length?'none':'block';
 
-// Cat filters
-document.getElementById('cat-filters').addEventListener('click', e => {
-  if(!e.target.classList.contains('fb')) return;
-  activeCat = e.target.dataset.cat;
-  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
-  e.target.classList.add('on');
-  render();
-});
+  // KPIs (respondem ao filtro)
+  document.getElementById('k-total').textContent=list.length;
+  document.getElementById('k-total-of').textContent=list.length<PROJECTS.length?' /'+PROJECTS.length:'';
+  document.getElementById('k-run').textContent=list.filter(p=>p.status==='run'||p.status==='test').length;
+  document.getElementById('k-hold').textContent=list.filter(p=>p.status==='hold').length;
+  document.getElementById('k-new').textContent=list.filter(p=>p.status==='new').length;
+  document.getElementById('k-prio').textContent=list.filter(p=>p.prio).length;
 
-const now = new Date();
-document.getElementById('ts').textContent = now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
-document.getElementById('ft-date').textContent = now.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+  // Distribuição
+  const bar=document.getElementById('d-bar');const leg=document.getElementById('d-legend');bar.innerHTML='';leg.innerHTML='';
+  document.getElementById('d-total').textContent=list.length+' proj'+(list.length!==1?'s':'');
+  STATUS_ORDER.forEach(st=>{const n=list.filter(p=>p.status===st).length;if(!n)return;const sm=STMAP[st];
+    const seg=document.createElement('span');seg.style.flex=n;seg.style.background=sm.color;seg.title=sm.lab+': '+n;bar.appendChild(seg);
+    leg.insertAdjacentHTML('beforeend',`<div class="li"><span class="sw" style="background:${sm.color}"></span>${sm.lab} <b>${n}</b></div>`);
+  });
 
+  // Toolbar
+  document.getElementById('tb-count').innerHTML=`${list.length} projeto${list.length!==1?'s':''} <span>de ${PROJECTS.length}</span>`;
+  renderChips();
+}
+function renderChips(){
+  const wrap=document.getElementById('chips-active');wrap.innerHTML='';
+  const add=(lab,fn)=>{const c=document.createElement('span');c.className='achip';c.innerHTML=`${lab} <span class="x">×</span>`;c.querySelector('.x').onclick=fn;wrap.appendChild(c);};
+  const q=document.getElementById('search').value.trim();
+  if(q) add(`"${q}"`,()=>{document.getElementById('search').value='';render();});
+  if(prioOnly) add('★ Prioridade',()=>togglePrio());
+  if(fStatus!=='all') add('Situação: '+STMAP[fStatus].lab,()=>{fStatus='all';syncUI();render();});
+  if(fCat!=='all') add('Categoria: '+CAT[fCat].label,()=>{fCat='all';syncUI();render();});
+  if(fPerson!=='all') add('Resp.: '+PEOPLE[fPerson].name.split(' ')[0],()=>{fPerson='all';syncUI();render();});
+  if(fSrc!=='all') add('Origem: '+(fSrc==='plan'?'Planejamento':'Bitrix'),()=>{fSrc='all';syncUI();render();});
+  document.getElementById('tb-clear').style.display=anyFilter()?'inline-block':'none';
+}
+function syncUI(){
+  const set=(id,val)=>{document.querySelectorAll('#'+id+' .frow').forEach(b=>b.classList.toggle('on',b.dataset.v===val));};
+  set('f-status',fStatus);set('f-cat',fCat);set('f-person',fPerson);set('f-src',fSrc);
+  document.getElementById('prio-btn').classList.toggle('on',prioOnly);
+}
+function clearFilters(){fCat=fPerson=fSrc=fStatus='all';prioOnly=false;document.getElementById('search').value='';syncUI();render();}
+function togglePrio(){prioOnly=!prioOnly;syncUI();render();}
+function setSort(v){sortMode=v;render();}
+
+function countBy(fn){return PROJECTS.filter(fn).length;}
+(function(){
+  const fs=document.getElementById('f-status');
+  fs.insertAdjacentHTML('beforeend',`<button class="frow on" data-v="all">Todas<span class="c">${PROJECTS.length}</span></button>`);
+  STATUS_ORDER.forEach(st=>{const n=countBy(p=>p.status===st);if(!n)return;const sm=STMAP[st];fs.insertAdjacentHTML('beforeend',`<button class="frow" data-v="${st}"><span class="dot" style="background:${sm.color}"></span>${sm.lab}<span class="c">${n}</span></button>`);});
+  fs.addEventListener('click',e=>{const b=e.target.closest('.frow');if(!b)return;fStatus=b.dataset.v;syncUI();render();});
+
+  const fc=document.getElementById('f-cat');
+  fc.insertAdjacentHTML('beforeend',`<button class="frow on" data-v="all">Todas<span class="c">${PROJECTS.length}</span></button>`);
+  Object.entries(CAT).forEach(([k,m])=>{const n=countBy(p=>p.cat===k);if(!n)return;fc.insertAdjacentHTML('beforeend',`<button class="frow" data-v="${k}"><span class="dot" style="background:${m.color}"></span>${m.label}<span class="c">${n}</span></button>`);});
+  fc.addEventListener('click',e=>{const b=e.target.closest('.frow');if(!b)return;fCat=b.dataset.v;syncUI();render();});
+
+  const fp=document.getElementById('f-person');
+  fp.insertAdjacentHTML('beforeend',`<button class="frow on" data-v="all">Todos<span class="c">${PROJECTS.length}</span></button>`);
+  Object.entries(PEOPLE).forEach(([k,pe])=>{const n=countBy(p=>p.resp.some(r=>r.p===k));if(!n)return;fp.insertAdjacentHTML('beforeend',`<button class="frow" data-v="${k}"><span class="av" style="background:${pe.color}">${pe.name[0]}</span>${pe.name.split(' ')[0]}<span class="c">${n}</span></button>`);});
+  fp.addEventListener('click',e=>{const b=e.target.closest('.frow');if(!b)return;fPerson=b.dataset.v;syncUI();render();});
+
+  const fsr=document.getElementById('f-src');
+  [['all','Todas'],['plan','Planejamento'],['bitrix','Bitrix']].forEach(([v,l],i)=>fsr.insertAdjacentHTML('beforeend',`<button class="frow${i===0?' on':''}" data-v="${v}">${l}</button>`));
+  fsr.addEventListener('click',e=>{const b=e.target.closest('.frow');if(!b)return;fSrc=b.dataset.v;syncUI();render();});
+
+  document.getElementById('seg-group').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;groupMode=b.dataset.g;document.querySelectorAll('#seg-group button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render();});
+  document.getElementById('seg-view').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;viewMode=b.dataset.v;document.querySelectorAll('#seg-view button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render();});
+})();
+
+const now=new Date();
+document.getElementById('date').textContent=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+document.getElementById('fdate').textContent=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
 render();
 </script>
 </body>

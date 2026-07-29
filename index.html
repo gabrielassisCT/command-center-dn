@@ -49,10 +49,7 @@ body{font-family:'Roboto',system-ui,sans-serif;background:var(--fog);color:var(-
 .search{font-size:12px;padding:7px 12px;border:1px solid var(--line);border-radius:9px;background:var(--card);outline:none;min-width:180px;}
 .search:focus{border-color:var(--ink);}
 /* DATE BAR */
-.datebar{display:none;align-items:center;gap:10px;flex-wrap:wrap;}
-body.vdata .datebar{display:flex;}
-body.vdata .trow:not(:first-child){display:none;}
-body.vdata .trow:first-child>*:not(.seg):not(.datebar){display:none;}
+.datebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .seg2{display:inline-flex;background:#e9e7e0;border-radius:9px;padding:3px;gap:2px;}
 .seg2 button{font-size:11.5px;font-weight:700;border:none;background:transparent;color:var(--mute);border-radius:6px;padding:6px 15px;cursor:pointer;}
 .seg2 button.on{background:var(--red);color:#fff;}
@@ -159,6 +156,7 @@ body.vdata .trow:first-child>*:not(.seg):not(.datebar){display:none;}
 .gwin b{color:var(--red);font-weight:700}
 .ghcell.yr{border-left:2px solid var(--graph)!important;font-weight:700;color:var(--ink)}
 .ghcell.yr i{font-style:normal;opacity:.55;margin-left:1px}
+.ghl{position:absolute;top:0;bottom:0;background:rgba(238,34,43,.07);border-left:1px solid rgba(238,34,43,.35);border-right:1px solid rgba(238,34,43,.35);pointer-events:none;z-index:0}
 .gnodatelist{margin-top:12px;padding:11px 14px;background:var(--fog);border-left:3px solid var(--mute);border-radius:0 8px 8px 0;font:400 12px/1.6 Roboto,sans-serif;color:var(--graph)}
 .gnodatelist b{color:var(--ink)}
 .gbar{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -176,6 +174,8 @@ body.vdata .trow:first-child>*:not(.seg):not(.datebar){display:none;}
 .sel:hover{border-color:var(--graph)}
 .sel:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(29,29,27,.07)}
 .sel.act{border-color:var(--red);color:var(--red);font-weight:500;box-shadow:0 0 0 2px rgba(238,34,43,.09)}
+.selmes,.selano{min-width:auto;padding:7px 24px 7px 10px}
+.selano{min-width:86px}
 .perlab{font:400 11.5px/1 'Roboto Mono',ui-monospace,monospace;color:var(--graph);background:var(--fog);padding:7px 11px;border-radius:7px;white-space:nowrap}
 #datebar.off{opacity:.32;pointer-events:none}
 /* Kanban */
@@ -185,7 +185,20 @@ body.vdata .trow:first-child>*:not(.seg):not(.datebar){display:none;}
 .kch .kd{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
 .kch h3{font:700 12.5px/1.2 Roboto,sans-serif;letter-spacing:-.1px;color:var(--ink)}
 .kch .kc{margin-left:auto;font:400 10.5px/1 'Roboto Mono',monospace;color:var(--graph);background:#fff;border:1px solid var(--line);padding:3px 8px;border-radius:20px}
-.kcol .card{margin-bottom:8px}
+.kcol .card{margin-bottom:8px;flex-direction:column}
+.kcol .card .accent{width:100%;height:3px;flex:0 0 3px}
+.kcol .card .body{flex-direction:column;align-items:stretch;gap:9px;padding:11px 13px}
+.kcol .card .meta{flex-direction:row;align-items:center;justify-content:space-between;min-width:0;width:100%;gap:8px;flex-wrap:wrap}
+.kcol .card h3{font-size:12.5px;line-height:1.3}
+.kcol .card .obs{display:none}
+.kcol .card .time{font-size:10px}
+.kcol .card .when{font-size:9.5px;white-space:normal;text-align:right}
+.kcol .people{margin-top:2px;gap:4px}
+.kcol .per{font-size:10px;padding:2px 8px 2px 2px}
+.kcol .per i{width:16px;height:16px;font-size:8px}
+.kcol .per.lead b{display:none}
+.kcol .chips2{gap:4px;margin-bottom:3px}
+.kcol .tag{font-size:8.5px;padding:2px 7px}
 .kcol .card:last-child{margin-bottom:0}
 .kempty{font:400 11.5px/1.5 Roboto,sans-serif;color:var(--mute);text-align:center;padding:16px 8px}
 </style>
@@ -222,9 +235,13 @@ body.vdata .trow:first-child>*:not(.seg):not(.datebar){display:none;}
       <option value="ano">Ano</option>
     </select>
     <span class="datebar" id="datebar">
-      <button class="dnav" id="dprev">‹</button>
+      <button class="dnav" id="dprev" title="Anterior">‹</button>
       <input type="date" class="dpick" id="dpick" min="2025-01-01" max="2028-12-31">
-      <button class="dnav" id="dnext">›</button>
+      <input type="week" class="dpick" id="s-sem" min="2025-W01" max="2028-W52">
+      <select class="sel selmes" id="s-mes"></select>
+      <select class="sel selano" id="s-ano"></select>
+      <button class="dnav" id="dnext" title="Próximo">›</button>
+      <button class="gsc" id="btn-hoje" title="Voltar para hoje">Hoje</button>
     </span>
     <span class="perlab" id="perlab"></span>
     <input class="search" id="search" placeholder="Buscar projeto, pessoa..." oninput="render()">
@@ -536,7 +553,7 @@ function renderDateView(){
   else{html+=`<div class="autobar" style="margin-top:16px"><b>${autoList.length} tarefas automatizadas</b> rodando no período (só monitorar, sem tempo): ${autoList.map(a=>`<span class="ac">${a.title}</span>`).join('')}</div>`;}
   document.getElementById('content').innerHTML=html;
 }
-const PXD={dia:26,semana:7,mes:2.1,ano:0.95};
+const PXD={dia:26,semana:13,mes:2.1,ano:0.95};
 const CY0='2026-07-01',CY1='2027-07-15';
 function setFit(v){gfit=v;render();}
 function addD(d,n){const x=new Date(d+'T00:00:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10);}
@@ -560,6 +577,9 @@ function ganttHTML(items,W0s,W1s,scale,markS,markL,scaleBar){
   const foraJanela=items.filter(p=>p.s&&(endOf(p)<W0s||p.s>W1s));
   let feriasBand='',feriasLab='';
   FERIAS.forEach(F=>{const fL=((new Date(F.s+'T00:00:00'))-W0)/864e5*pxd,fR=((new Date(F.e+'T00:00:00'))-W0)/864e5*pxd;if(fR>0&&fL<w1px){const fx=Math.max(0,Math.round(fL)),fw=Math.min(w1px,Math.round(fR))-fx;feriasBand+=`<div class="gferias" style="left:${fx}px;width:${fw}px"></div>`;if(scale!=='ano')feriasLab+=`<div class="gferiaslab" style="left:${fx+3}px">🌴 Férias</div>`;}});
+  let hlBand='';
+  if(GHL){const hL=((new Date(GHL[0]+'T00:00:00'))-W0)/864e5*pxd,hR=(((new Date(GHL[1]+'T00:00:00'))-W0)/864e5+1)*pxd;
+    if(hR>0&&hL<w1px){const x=Math.max(0,Math.round(hL)),wd=Math.min(w1px,Math.round(hR))-x;hlBand=`<div class="ghl" style="left:${x}px;width:${wd}px"></div>`;}}
   const markX=markS?Math.round(((new Date(markS+'T00:00:00'))-W0)/864e5*pxd):-999;
   let head='';
   if(scale==='ano'){
@@ -573,14 +593,14 @@ function ganttHTML(items,W0s,W1s,scale,markS,markL,scaleBar){
   else{let d=new Date(W0);while(d<W1){const mon=d.getDay()===1;head+=`<div class="ghcell${mon?' wk':''}" style="left:${Math.round((d-W0)/864e5*pxd)}px;width:${Math.round(pxd)}px">${d.getDate()}</div>`;const n=new Date(d);n.setDate(n.getDate()+1);d=n;}}
   const ord=dentro.slice().sort((a,b)=>(a.s<b.s?-1:a.s>b.s?1:0)||ONDAORD.indexOf(a.on)-ONDAORD.indexOf(b.on)||CATORD.indexOf(a.cat)-CATORD.indexOf(b.cat));
   const marker=(markX>=0&&markX<=w1px)?`<div class="gmark" style="left:${markX}px"><span>${markL||''}</span></div>`:'';
-  let rows=`<div class="grow gh"><div class="glabel">Projeto · datas</div><div class="gtrack" style="width:${w1px}px">${feriasBand}${head}${feriasLab}</div></div>`;
+  let rows=`<div class="grow gh"><div class="glabel">Projeto · datas</div><div class="gtrack" style="width:${w1px}px">${feriasBand}${hlBand}${head}${feriasLab}</div></div>`;
   ord.forEach(p=>{const m=CAT[p.cat];
     let L=Math.round(off(p.s));const eD=p.e==='cont'?W1:new Date((p.e||p.s)+'T00:00:00');let R=Math.round((eD-W0)/864e5*pxd);
     L=Math.max(0,L);R=Math.min(w1px,R);const w=Math.max(Math.round(Math.max(pxd*1.2,6)),R-L);
     const lbl=scale==='ano'?'':(p.ef?p.ef.split('·')[0].split('→')[0].trim():'');
     const bar=`<div class="gbar ${p.e==='cont'?'cont':''}" style="left:${L}px;width:${w}px;background:${m.c}" title="${p.title} — ${br(p.s)} → ${p.e==='cont'?'contínuo':br(p.e)}">${lbl}</div>`;
-    rows+=`<div class="grow"><div class="glabel"><div class="gt">${p.title}</div><div class="gsub">${br(p.s)} → ${p.e==='cont'?'contínuo':br(p.e)}${p.lead&&p.lead!=='—'?' · '+p.lead:''}${apList(p).length?' (+'+apList(p).join(', ')+')':''}</div></div><div class="gtrack" style="width:${w1px}px">${feriasBand}${marker}${bar}</div></div>`;});
-  if(!ord.length)rows+=`<div class="grow"><div class="glabel" style="color:var(--mute)">Nenhum item neste recorte</div><div class="gtrack" style="width:${w1px}px">${feriasBand}${marker}</div></div>`;
+    rows+=`<div class="grow"><div class="glabel"><div class="gt">${p.title}</div><div class="gsub">${br(p.s)} → ${p.e==='cont'?'contínuo':br(p.e)}${p.lead&&p.lead!=='—'?' · '+p.lead:''}${apList(p).length?' (+'+apList(p).join(', ')+')':''}</div></div><div class="gtrack" style="width:${w1px}px">${feriasBand}${hlBand}${marker}${bar}</div></div>`;});
+  if(!ord.length)rows+=`<div class="grow"><div class="glabel" style="color:var(--mute)">Nenhum item neste recorte</div><div class="gtrack" style="width:${w1px}px">${feriasBand}${hlBand}${marker}</div></div>`;
   const sb=scaleBar?`<div class="gscalebar">
       <span>Escala</span>
       <button class="gsc ${scale==='dia'?'on':''}" onclick="setScale('dia')">Dia</button>
@@ -595,10 +615,25 @@ function ganttHTML(items,W0s,W1s,scale,markS,markL,scaleBar){
   const nd=(scaleBar&&semData.length)?`<div class="gnodatelist"><b>${semData.length} sem data definida</b> — não entram na linha do tempo: ${semData.map(p=>p.title).join(' · ')}</div>`:'';
   return sb+`<div class="gantt-scroll"><div class="gantt">${rows}</div></div>`+nd;
 }
-function renderGantt(items){const pw=periodWindow();let a,b;
-  if(pw){const sp=(new Date(pw[1])-new Date(pw[0]))/864e5;a=addD(pw[0],-Math.max(2,Math.round(sp*0.05)));b=addD(pw[1],Math.max(2,Math.round(sp*0.05)));}
-  else {[a,b]=ganttWindow(items);}
-  const auto={dia:'dia',semana:'dia',mes:'semana',ano:'mes'}[per]; const sc=gscaleUser||auto||gscale;
+let GHL=null;   // faixa destacada = o recorte escolhido
+function renderGantt(items){
+  const pw=periodWindow(); let a,b,sc;
+  if(pw){
+    const d=new Date(selDate+'T00:00:00');
+    if(per==='dia'){                        // mostra o mês inteiro em dias, destacando o dia
+      a=isoD(new Date(d.getFullYear(),d.getMonth(),1));
+      b=isoD(new Date(d.getFullYear(),d.getMonth()+1,0)); sc='dia';
+    } else if(per==='semana'){              // o mês em semanas, destacando a semana
+      a=isoD(new Date(d.getFullYear(),d.getMonth(),1));
+      b=isoD(new Date(d.getFullYear(),d.getMonth()+1,0)); sc='semana';
+    } else if(per==='mes'){                 // todos os dias do mês
+      a=pw[0]; b=pw[1]; sc='dia';
+    } else {                                // o ano em meses
+      a=pw[0]; b=pw[1]; sc='mes';
+    }
+    GHL=pw;
+  } else { [a,b]=ganttWindow(items); sc=gscale; GHL=null; }
+  if(gscaleUser) sc=gscaleUser;
   return ganttHTML(items,a,b,sc,HOJE,'HOJE',true);}
 function isoD(d){return new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);}
 function periodWindow(){
@@ -609,12 +644,51 @@ function periodWindow(){
   if(per==='mes')return [isoD(new Date(d.getFullYear(),d.getMonth(),1)),isoD(new Date(d.getFullYear(),d.getMonth()+1,0))];
   return [isoD(new Date(d.getFullYear(),0,1)),isoD(new Date(d.getFullYear(),11,31))];
 }
+/* menor recorte em que a tarefa faz sentido: 1=dia 2=semana 3=mês 4=ano */
+const FREQRANK={diaria:1,auto:1,semanal:2,quinzenal:3,mensal:3,bimestral:4,trimestral:4,semestral:4,anual:4};
+const PERRANK={dia:1,semana:2,mes:3,ano:4};
 function inPeriod(p){
   const w=periodWindow(); if(!w)return true;
-  if(p.tipo==='tarefa')return true;           // rotinas recorrem em qualquer recorte
-  if(!p.s)return false;                        // projeto sem data não pertence a um recorte
+  const rank=PERRANK[per];
+  if(p.tipo==='tarefa'){
+    if((FREQRANK[p.freq]||4)>rank)return false;      // acontece menos vezes que o recorte
+    if(per==='dia'){
+      const dw=new Date(selDate+'T00:00:00').getDay();
+      if(dw===0||dw===6)return false;                    // fim de semana: sem rotina
+      const d=taskDay(p);                              // rotina com dia fixo (ex.: quinta)
+      if(d!==null&&d!==dw)return false;
+    }
+    return true;
+  }
+  if(!p.s)return false;                                // projeto sem data não entra num recorte
   const e=p.e==='cont'?'2099-12-31':(p.e||p.s);
   return !(e<w[0]||p.s>w[1]);
+}
+function isoWeekStr(d){
+  const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  t.setUTCDate(t.getUTCDate()-((t.getUTCDay()+6)%7)+3);
+  const ft=new Date(Date.UTC(t.getUTCFullYear(),0,4));
+  const w=1+Math.round(((t-ft)/864e5-3+((ft.getUTCDay()+6)%7))/7);
+  return t.getUTCFullYear()+'-W'+String(w).padStart(2,'0');
+}
+function weekToISO(v){
+  const [y,w]=v.split('-W').map(Number);
+  const simple=new Date(Date.UTC(y,0,1+(w-1)*7)),dow=simple.getUTCDay(),m=new Date(simple);
+  if(dow<=4)m.setUTCDate(simple.getUTCDate()-((dow+6)%7)); else m.setUTCDate(simple.getUTCDate()+(8-dow));
+  return m.toISOString().slice(0,10);
+}
+function syncPeriodPickers(){
+  const dp=document.getElementById('dpick'),sw=document.getElementById('s-sem'),sm=document.getElementById('s-mes'),sa=document.getElementById('s-ano');
+  if(!dp||!sm||!sa||!sw)return;
+  const d=new Date(selDate+'T00:00:00');
+  dp.style.display=(per==='dia')?'':'none';
+  sw.style.display=(per==='semana')?'':'none';
+  sm.style.display=(per==='mes')?'':'none';
+  sa.style.display=(per==='mes'||per==='ano')?'':'none';
+  sw.value=isoWeekStr(d);
+  if(!sm.options.length){MESL.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m.charAt(0).toUpperCase()+m.slice(1);sm.appendChild(o);});}
+  if(!sa.options.length){for(let y=2025;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;sa.appendChild(o);}}
+  dp.value=selDate; sm.value=d.getMonth(); sa.value=d.getFullYear();
 }
 function periodLabel(){
   const w=periodWindow();
@@ -640,6 +714,7 @@ function renderKanban(items){
 }
 function render(){
   const db=document.getElementById('datebar'); if(db)db.classList.toggle('off',per==='todos');
+  syncPeriodPickers();
   const pl=document.getElementById('perlab'); if(pl)pl.textContent=periodLabel();
   const gs=document.getElementById('s-grp'); if(gs&&gs.parentElement)gs.parentElement.style.display=(view==='gantt')?'none':'';
   const items=P.filter(pass);
@@ -659,6 +734,10 @@ function shiftPer(n){const d=new Date(selDate+'T00:00:00');
   if(per==='dia')d.setDate(d.getDate()+n); else if(per==='semana')d.setDate(d.getDate()+7*n);
   else if(per==='mes')d.setMonth(d.getMonth()+n); else if(per==='ano')d.setFullYear(d.getFullYear()+n); else return;
   selDate=isoD(d);document.getElementById('dpick').value=selDate;render();}
+document.getElementById('s-sem').onchange=e=>{if(e.target.value){selDate=weekToISO(e.target.value);render();}};
+document.getElementById('btn-hoje').onclick=()=>{selDate=HOJE;render();};
+document.getElementById('s-mes').onchange=e=>{const d=new Date(selDate+'T00:00:00');d.setDate(1);d.setMonth(+e.target.value);selDate=isoD(d);render();};
+document.getElementById('s-ano').onchange=e=>{const d=new Date(selDate+'T00:00:00');d.setDate(1);d.setFullYear(+e.target.value);selDate=isoD(d);render();};
 document.getElementById('dprev').onclick=()=>shiftPer(-1);
 document.getElementById('dnext').onclick=()=>shiftPer(1);
 const dp=document.getElementById('dpick');dp.value=selDate;dp.onchange=()=>{selDate=dp.value;render();};
